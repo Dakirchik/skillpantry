@@ -55,10 +55,10 @@ def test_validation_catches_common_mistakes(tmp_path):
 
 def test_set_field_keeps_layout(tmp_path):
     f = tmp_path / "x.toml"
-    f.write_text('id = "x"\nstatus = "draft"  # note\n\n[source]\nref = "old"\n')
+    f.write_text('id = "x"\nstatus = "draft"  # note\n\n[source]\nref = "old"\n', encoding="utf-8")
     set_field(f, "status", "verified")
     set_field(f, "ref", "new", section="source")
-    assert f.read_text() == 'id = "x"\nstatus = "verified"  # note\n\n[source]\nref = "new"\n'
+    assert f.read_text(encoding="utf-8") == 'id = "x"\nstatus = "verified"  # note\n\n[source]\nref = "new"\n'
 
 
 # ---- formats ---------------------------------------------------------------------------
@@ -89,8 +89,8 @@ def test_managed_block_is_idempotent():
 def test_install_uninstall_restores_project(env, target):
     proj = env["tmp"] / "proj"
     proj.mkdir()
-    (proj / "CLAUDE.md").write_text("# Mine\n")
-    (proj / "AGENTS.md").write_text("# Mine\n")
+    (proj / "CLAUDE.md").write_text("# Mine\n", encoding="utf-8")
+    (proj / "AGENTS.md").write_text("# Mine\n", encoding="utf-8")
     before = snapshot_tree(proj)
     assert main(["install", "kit", "-t", target, "-p", str(proj), "-y", "--variant", "one"]) == 0
     after = snapshot_tree(proj)
@@ -99,7 +99,7 @@ def test_install_uninstall_restores_project(env, target):
                   "gemini": ".gemini/skills", "cursor": ".cursor/skills"}[target]
     assert f"{skills_dir}/alpha/SKILL.md" in after and f"{skills_dir}/beta/SKILL.md" in after
     assert f"{skills_dir}/gamma/SKILL.md" in after  # repo-root glob; folder named from SKILL.md
-    assert (proj / "DESIGN.md").read_text() == "design one\n"
+    assert (proj / "DESIGN.md").read_text(encoding="utf-8") == "design one\n"
     # reinstall is idempotent
     assert main(["install", "kit", "-t", target, "-p", str(proj), "-y", "--variant", "one"]) == 0
     assert snapshot_tree(proj) == after
@@ -111,22 +111,22 @@ def test_claude_specific_outputs(env):
     proj = env["tmp"] / "p"
     proj.mkdir()
     assert main(["install", "kit", "-t", "claude", "-p", str(proj), "-y"]) == 0
-    mcp = json.loads((proj / ".mcp.json").read_text())
+    mcp = json.loads((proj / ".mcp.json").read_text(encoding="utf-8"))
     assert mcp["mcpServers"]["remote"]["type"] == "http"
     assert (proj / ".claude" / "commands" / "go.md").exists()
-    text = (proj / "CLAUDE.md").read_text()
+    text = (proj / "CLAUDE.md").read_text(encoding="utf-8")
     assert "# Kit" in text and "# CLAUDE.md" not in text
 
 
 def test_conflict_blocks_then_force_backs_up(env):
     proj = env["tmp"] / "p"
     (proj / ".claude" / "skills" / "alpha").mkdir(parents=True)
-    (proj / ".claude" / "skills" / "alpha" / "SKILL.md").write_text("mine")
+    (proj / ".claude" / "skills" / "alpha" / "SKILL.md").write_text("mine", encoding="utf-8")
     assert main(["install", "kit", "-t", "claude-code", "-p", str(proj), "-y"]) == 2
-    assert (proj / ".claude" / "skills" / "alpha" / "SKILL.md").read_text() == "mine"
+    assert (proj / ".claude" / "skills" / "alpha" / "SKILL.md").read_text(encoding="utf-8") == "mine"
     assert main(["install", "kit", "-t", "claude-code", "-p", str(proj), "-y", "--force"]) == 0
     backups = list((env["tmp"] / "ss" / "backups").rglob("SKILL.md"))
-    assert any(b.read_text() == "mine" for b in backups)
+    assert any(b.read_text(encoding="utf-8") == "mine" for b in backups)
 
 
 def test_global_claude_mcp_is_manual_and_home_untouched_outside_claude(env):
@@ -141,7 +141,7 @@ def test_folder_target_writes_readme(env):
     assert main(["install", "kit", "-t", "folder", "-d", str(lib), "-y", "--variant", "one"]) == 0
     assert (lib / "kit" / "skills" / "alpha" / "helper.md").exists()
     assert (lib / "kit" / "RULES.md").exists()
-    assert "Коммит" in (lib / "kit" / "SKILLPANTRY.md").read_text()
+    assert "Коммит" in (lib / "kit" / "SKILLPANTRY.md").read_text(encoding="utf-8")
     assert main(["uninstall", "kit", "-t", "folder", "-d", str(lib)]) == 0
     assert not (lib / "kit").exists()
 
@@ -156,7 +156,7 @@ def test_skill_filter(env):
 def test_fetch_is_pinned(env):
     e = Catalog().get("kit")
     snap = fetch(e)
-    assert (snap / ".skillpantry-ok").read_text() == env["sha"]
+    assert (snap / ".skillpantry-ok").read_text(encoding="utf-8") == env["sha"]
 
 
 def test_audit_flags_pipe_to_shell(env):
@@ -168,7 +168,7 @@ def test_audit_flags_pipe_to_shell(env):
 
 def test_add_drafts_manifest(env):
     assert main(["add", "acme/kit", "--id", "kit2"]) == 0
-    text = (env["catalog"] / "kit2.toml").read_text()
+    text = (env["catalog"] / "kit2.toml").read_text(encoding="utf-8")
     assert 'status = "draft"' in text and 'path = "skills/*"' in text and 'license = "MIT"' in text
     assert main(["validate"]) == 1  # TODO fields must be filled before approval
 
@@ -212,7 +212,7 @@ def test_config_toml_sets_library(env, monkeypatch):
     from skillpantry.cli import default_library
     data = env["tmp"] / "ss"
     data.mkdir(exist_ok=True)
-    (data / "config.toml").write_text('library = "D:\\\\Skills"\n')
+    (data / "config.toml").write_text('library = "D:\\\\Skills"\n', encoding="utf-8")
     assert str(default_library()).endswith("Skills")
     monkeypatch.setenv("SKILLPANTRY_LIBRARY", str(env["tmp"] / "envlib"))
     assert default_library() == env["tmp"] / "envlib"
@@ -236,11 +236,11 @@ def test_blocks_written_under_the_old_name_are_updated_and_removed(env, tmp_path
     proj.mkdir()
     assert main(["install", "kit", "-t", "claude-code", "-p", str(proj), "-y", "--variant", "one"]) == 0
     claude = proj / "CLAUDE.md"
-    claude.write_text(claude.read_text().replace("skillpantry:kit", "skillshelf:kit"))
+    claude.write_text(claude.read_text(encoding="utf-8").replace("skillpantry:kit", "skillshelf:kit"), encoding="utf-8")
     assert main(["install", "kit", "-t", "claude-code", "-p", str(proj), "-y", "--variant", "one"]) == 0
-    text = claude.read_text()
+    text = claude.read_text(encoding="utf-8")
     assert text.count("Be careful.") == 1 and "skillshelf:" not in text
-    claude.write_text(text.replace("skillpantry:kit", "skillshelf:kit"))
+    claude.write_text(text.replace("skillpantry:kit", "skillshelf:kit"), encoding="utf-8")
     assert main(["uninstall", "kit", "-t", "claude-code", "-p", str(proj)]) == 0
     assert not claude.exists()
 
@@ -252,9 +252,9 @@ def test_old_data_folder_moves_on_first_run(monkeypatch, tmp_path):
     monkeypatch.setenv("USERPROFILE", str(tmp_path))
     old = tmp_path / ".skillshelf"
     (old / "catalog").mkdir(parents=True)
-    (old / "catalog" / "mine.toml").write_text("x")
-    (old / "installs.json").write_text(json.dumps({"installs": {"k": {"backup": str(old / "backups" / "a")}}}))
+    (old / "catalog" / "mine.toml").write_text("x", encoding="utf-8")
+    (old / "installs.json").write_text(json.dumps({"installs": {"k": {"backup": str(old / "backups" / "a")}}}), encoding="utf-8")
     new = home_dir()
     assert new == tmp_path / ".skillpantry" and not old.exists()
     assert (new / "catalog" / "mine.toml").exists()
-    assert json.loads((new / "installs.json").read_text())["installs"]["k"]["backup"] == str(new / "backups" / "a")
+    assert json.loads((new / "installs.json").read_text(encoding="utf-8"))["installs"]["k"]["backup"] == str(new / "backups" / "a")

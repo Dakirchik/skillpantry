@@ -54,9 +54,7 @@ def test_texts_follow_the_language(english):
 def test_priority_flag_env_config_system(monkeypatch, env):
     from skillpantry.config import set_setting
     monkeypatch.delenv("SKILLPANTRY_LANG")
-    monkeypatch.setenv("LANG", "ru_RU.UTF-8")
-    monkeypatch.delenv("LC_ALL", raising=False)
-    monkeypatch.delenv("LC_MESSAGES", raising=False)
+    monkeypatch.setattr(i18n, "_system_lang", lambda: "ru")   # Windows asks the OS, not LANG
     assert i18n.set_lang() == "ru"                      # system
     set_setting("language", "en")
     assert i18n.set_lang() == "en"                      # config

@@ -19,6 +19,9 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install pytest
       - run: python -m pytest -q
+      - name: tests with a non-UTF-8 default encoding (catches what cp1252 on Windows would)
+        if: runner.os == 'Linux'
+        run: LC_ALL=C LANG=C PYTHONUTF8=0 PYTHONIOENCODING=utf-8 python -m pytest -q -p no:cacheprovider
       - run: python -m skillpantry validate
 
   windows-installer:
@@ -72,6 +75,11 @@ jobs:
       - name: shellcheck
         if: runner.os == 'Linux'
         run: shellcheck -s bash pantryctl.sh install.sh install.command
+      - name: scripts are executable in git (users run ./install.sh)
+        run: |
+          for f in install.sh install.command pantryctl.sh; do
+            test -x "$f" || { echo "::error file=$f::$f lost its executable bit: git update-index --chmod=+x $f"; exit 1; }
+          done
       - name: install / use / uninstall with an isolated HOME
         run: |
           export HOME="$RUNNER_TEMP/home" SHELL=/bin/zsh

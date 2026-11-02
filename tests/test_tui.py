@@ -84,7 +84,7 @@ def test_wizard_installs_and_reinstall_updates(env, monkeypatch, tmp_path):
     t.start()
     Wizard(t, cat).run()
     assert (proj / ".agents" / "skills" / "alpha" / "SKILL.md").exists()
-    assert (proj / "DESIGN.md").read_text() == "design one\n"
+    assert (proj / "DESIGN.md").read_text(encoding="utf-8") == "design one\n"
     # the remembered variant is reused on reinstall
     from skillpantry.installer import load_state
     rec = next(iter(load_state()["installs"].values()))

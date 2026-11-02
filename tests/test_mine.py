@@ -51,7 +51,7 @@ def test_local_folder_entry_installs_tracks_changes_and_uninstalls(own):
     (own["skill"] / "SKILL.md").write_text("---\nname: go-review\n---\nnew\n", encoding="utf-8")
     assert Catalog().get("go-review").ref != old_ref               # folder changed → "↑"
     assert main(["install", "go-review", "-t", "claude-code", "-p", str(own["proj"]), "-y"]) == 0
-    assert "new" in (own["proj"] / ".claude" / "skills" / "go-review" / "SKILL.md").read_text()
+    assert "new" in (own["proj"] / ".claude" / "skills" / "go-review" / "SKILL.md").read_text(encoding="utf-8")
     assert main(["uninstall", "go-review", "-t", "claude-code", "-p", str(own["proj"])]) == 0
     assert snapshot_tree(own["proj"]) == before
 
