@@ -1,0 +1,41 @@
+id = "agent-skills-addy"
+number = 3
+name = "agent-skills (Addy Osmani)"
+category = "dev-process"
+summary = "25 скиллов полного цикла разработки: спека → план → код → тесты → ревью → релиз"
+description = """
+24 «lifecycle»-скилла и мета-скилл `using-agent-skills`. Каждый — процесс с шагами, контрольными
+точками проверки и таблицами anti-rationalization (против «и так сойдёт»). Для Claude Code
+дополнительно ставятся slash-команды /spec, /plan, /build, /test, /review, /ship и др.
+Скилл можно ставить выборочно: --skill spec-driven-development --skill code-review-and-quality.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["sdlc", "process", "review", "testing"]
+risk_notes = [
+  "Скилл test-driven-development есть и в superpowers: ставя оба, добавьте --skip-skill test-driven-development к одному из них",
+]
+overlaps = ["superpowers"]
+commands = [".claude/commands/*.md"]
+
+summary_en = "25 skills for the full development cycle: spec → plan → code → tests → review → release"
+description_en = """
+24 lifecycle skills plus the `using-agent-skills` meta-skill. Each one is a process with steps,
+verification checkpoints and anti-rationalization tables (against “good enough”). Claude Code
+also gets the /spec, /plan, /build, /test, /review, /ship and other slash commands. Skills can
+be installed selectively: --skill spec-driven-development --skill code-review-and-quality.
+"""
+risk_notes_en = [
+  "superpowers also has a test-driven-development skill: when installing both, add --skip-skill test-driven-development to one of them",
+]
+
+[source]
+repo = "addyosmani/agent-skills"
+ref = "301b02b12bff98e4688e6984af6556802322bbde"
+license = "MIT"
+
+[[skills]]
+path = "skills/*"

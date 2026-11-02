@@ -1,0 +1,46 @@
+id = "superpowers"
+number = 43
+name = "Superpowers (obra)"
+category = "dev-process"
+summary = "Фреймворк скиллов и методология: brainstorming, TDD, планы, субагенты, ревью"
+description = """
+15 скиллов: brainstorming, writing/executing plans, subagent-driven development, TDD, отладка,
+code review, git worktrees, verification-before-completion. Плагин дополнительно ставит
+session-хук — через skillpantry ставятся только скиллы.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["methodology", "tdd", "subagents"]
+risk_notes = [
+  "Скилл test-driven-development есть и в agent-skills-addy: ставя оба, добавьте --skip-skill test-driven-development к одному из них",
+]
+overlaps = ["agent-skills-addy"]
+
+summary_en = "A skills framework and methodology: brainstorming, TDD, plans, subagents, review"
+description_en = """
+15 skills: brainstorming, writing/executing plans, subagent-driven development, TDD, debugging,
+code review, git worktrees, verification-before-completion. The plugin also installs a session
+hook — skillpantry installs only the skills.
+"""
+risk_notes_en = [
+  "agent-skills-addy also has a test-driven-development skill: when installing both, add --skip-skill test-driven-development to one of them",
+]
+
+[source]
+repo = "obra/superpowers"
+ref = "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b"
+license = "MIT"
+
+[[skills]]
+path = "skills/*"
+
+[manual]
+"claude-code" = [
+  "Полная версия с хуком: /plugin install superpowers@claude-plugins-official",
+]
+
+[manual_en]
+"claude-code" = ["Full version with the hook: /plugin install superpowers@claude-plugins-official"]

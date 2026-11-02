@@ -1,0 +1,56 @@
+id = "mcp-gsc"
+number = 36
+name = "Search Console MCP"
+category = "content"
+summary = "Google Search Console в агенте: запросы, клики, индексация, каннибализация"
+description = """
+MCP-сервер (uvx mcp-search-console) и 4 скилла: аудит индексации, каннибализация, еженедельный
+SEO-отчёт, контент-возможности. Доступ выдаётся один раз через OAuth (client_secrets.json).
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["seo", "google", "mcp"]
+risk_notes = [
+  "client_secrets.json и токен — секреты: храните вне репозитория",
+  "Давайте доступ только к нужным ресурсам Search Console",
+]
+
+summary_en = "Google Search Console in the agent: queries, clicks, indexing, cannibalization"
+description_en = """
+An MCP server (uvx mcp-search-console) and 4 skills: indexing audit, cannibalization, a weekly
+SEO report, content opportunities. Access is granted once via OAuth (client_secrets.json).
+"""
+risk_notes_en = [
+  "client_secrets.json and the token are secrets: keep them outside the repository",
+  "Grant access only to the Search Console properties you need",
+]
+
+[source]
+repo = "AminForou/mcp-gsc"
+ref = "d49eea9e5efb5eb645b722249303179b2c150b49"
+license = "MIT"
+
+[[skills]]
+path = "skills/*"
+
+[mcp.mcp-search-console]
+command = "uvx"
+args = ["mcp-search-console"]
+env = { "GSC_OAUTH_CLIENT_SECRETS_FILE" = "", "GSC_DATA_STATE" = "all" }
+
+[manual]
+any = [
+  "Google Cloud Console → проект → включить Search Console API",
+  "Credentials → OAuth client ID → Desktop app → скачать JSON",
+  "Путь к JSON — в переменную GSC_OAUTH_CLIENT_SECRETS_FILE; при первом запуске откроется вход в Google",
+]
+
+[manual_en]
+any = [
+  "Google Cloud Console → project → enable the Search Console API",
+  "Credentials → OAuth client ID → Desktop app → download the JSON",
+  "Put the JSON path into GSC_OAUTH_CLIENT_SECRETS_FILE; the first run opens Google sign-in",
+]

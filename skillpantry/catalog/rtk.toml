@@ -1,0 +1,49 @@
+id = "rtk"
+number = 31
+name = "RTK"
+category = "tokens-models"
+summary = "CLI-прокси: режет расход токенов на 60–90% на выводе git, тестов, линтеров"
+description = """
+Один бинарник на Rust без зависимостей. Встаёт между агентом и shell через хук и фильтрует
+шумный вывод команд. Телеметрия выключена по умолчанию.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["tokens", "cli", "rust"]
+risk_notes = [
+  "Фильтрация может скрыть нужную строку ошибки — в спорных случаях: rtk bypass <команда>",
+]
+
+summary_en = "A CLI proxy that cuts token use by 60–90% on git, test and linter output"
+description_en = """
+A single Rust binary with no dependencies. Sits between the agent and the shell through a hook
+and filters noisy command output. Telemetry is off by default.
+"""
+risk_notes_en = [
+  "Filtering may hide the error line you need — when in doubt: rtk bypass <command>",
+]
+
+[source]
+repo = "rtk-ai/rtk"
+ref = "22812af6e4a99ad495dae8531b66dee1b5a53cce"
+license = "Apache-2.0"
+
+[manual]
+any = [
+  "Windows: winget install rtk-ai.rtk   ·   macOS/Linux: brew install rtk",
+]
+"claude-code" = [
+  "rtk init -g",
+]
+codex = [
+  "rtk init -g --codex",
+]
+gemini = [
+  "rtk init -g --gemini",
+]
+cursor = [
+  "rtk init -g --agent cursor",
+]

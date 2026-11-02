@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security problem in a catalog entry
+    url: https://github.com/Dakirchik/skillpantry/security/advisories/new
+    about: Report privately — see SECURITY.md

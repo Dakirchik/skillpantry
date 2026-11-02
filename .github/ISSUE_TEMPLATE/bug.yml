@@ -1,0 +1,23 @@
+name: Bug report
+description: Something did not install, uninstall or display correctly
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The command or screen, what you expected, what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `skillpantry doctor`
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: terminal
+    attributes:
+      label: Terminal and OS
+      placeholder: Windows Terminal on Windows 11, iTerm2 on macOS 15, …

@@ -1,0 +1,40 @@
+id = "skillui"
+number = 39
+name = "SkillUI"
+category = "design-frontend"
+summary = "Вытаскивает дизайн-систему (шрифты, цвета, отступы) с сайта для агента"
+description = """
+CLI на Node.js: `npx skillui` анализирует сайт и собирает описание дизайн-системы для агента.
+Результат удобно сохранить как DESIGN.md (см. awesome-design-md).
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["design", "design-system", "cli"]
+risk_notes = [
+  "Копирование фирменного стиля чужого сайта может нарушать права — для своих сайтов и референсов",
+]
+
+summary_en = "Extracts a site's design system (fonts, colors, spacing) for the agent"
+description_en = """
+A Node.js CLI: `npx skillui` analyzes a site and builds a design-system description for the
+agent. The result is handy to keep as DESIGN.md (see awesome-design-md).
+"""
+risk_notes_en = [
+  "Copying another site's brand style may infringe rights — for your own sites and references",
+]
+
+[source]
+repo = "amaancoderx/skillui"
+ref = "94c2caa08fdb24c74b6daf0eb9473dc968073d7b"
+license = "MIT"
+
+[manual]
+any = [
+  "npx skillui   (режим --mode ultra требует: npm install playwright && npx playwright install chromium)",
+]
+
+[manual_en]
+any = ["npx skillui   (--mode ultra needs: npm install playwright && npx playwright install chromium)"]

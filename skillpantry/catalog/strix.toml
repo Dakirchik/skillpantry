@@ -1,0 +1,53 @@
+id = "strix"
+number = 7
+name = "Strix"
+category = "security"
+summary = "ИИ-пентест: агенты ищут уязвимости и подтверждают их рабочими PoC"
+description = """
+Открытый инструмент автономного пентеста: разведка, эксплуатация, валидация, команды агентов.
+Ставятся 9 скиллов-руководств (как запускать Strix для веб-приложений, API, OWASP Top 10, CI);
+сам CLI `strix-agent` ставится вручную из PyPI.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["security", "pentest", "appsec"]
+risk_notes = [
+  "Запускать только на своих системах и стендах с разрешения владельца; на рабочих проектах — только через ИБ",
+  "Агент реально атакует цель: не направляйте на прод и чужие адреса",
+  "README предлагает curl … | bash — безопаснее ставить из PyPI командой ниже",
+]
+
+summary_en = "AI pentesting: agents find vulnerabilities and confirm them with working PoCs"
+description_en = """
+An open tool for autonomous penetration testing: recon, exploitation, validation, agent teams.
+Installs 9 guide skills (how to run Strix for web apps, APIs, OWASP Top 10, CI); the
+`strix-agent` CLI itself is installed by hand from PyPI.
+"""
+risk_notes_en = [
+  "Run it only on your own systems and test benches with the owner's permission; on work projects only through your security team",
+  "The agent really attacks the target: never point it at production or other people's addresses",
+  "The README suggests curl … | bash — installing from PyPI with the command below is safer",
+]
+
+[source]
+repo = "usestrix/strix"
+ref = "6b7ae2ebe4d47037a927aade23265ff4e4f27e84"
+license = "Apache-2.0"
+
+[[skills]]
+path = "skills/*"
+
+[manual]
+any = [
+  "pipx install strix-agent   (или: uv tool install strix-agent)",
+  "Strix нужен ключ LLM-провайдера и Docker — см. docs.strix.ai",
+]
+
+[manual_en]
+any = [
+  "pipx install strix-agent   (or: uv tool install strix-agent)",
+  "Strix needs an LLM provider key and Docker — see docs.strix.ai",
+]

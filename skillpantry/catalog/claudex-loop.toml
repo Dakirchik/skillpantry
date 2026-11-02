@@ -1,0 +1,52 @@
+id = "claudex-loop"
+number = 42
+name = "claudex-loop"
+category = "dev-process"
+summary = "Claude и Codex в одном цикле: план, сборка и перекрёстное ревью двумя моделями"
+description = """
+Скиллы claudex-route (разовые передачи задач между моделями), claudex-loop (полный цикл
+планирования, сборки и ревью), codex-build и codex-review. Нужны оба CLI — Claude Code и Codex —
+и обе подписки.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["cross-model", "review", "codex"]
+
+summary_en = "Claude and Codex in one loop: planning, building and cross-review by two models"
+description_en = """
+The skills claudex-route (one-off hand-offs between models), claudex-loop (the full plan, build
+and review cycle), codex-build and codex-review. Needs both CLIs — Claude Code and Codex — and
+both subscriptions.
+"""
+
+[source]
+repo = "chaseai-yt/claudex-loop"
+ref = "53cddc42e39346fb8c6d5d612281a3b1add14e66"
+license = "MIT"
+
+[[skills]]
+path = "skills/claudex-route"
+
+[[skills]]
+path = "skills/claudex-loop"
+
+[[skills]]
+path = "skills/codex-build"
+
+[[skills]]
+path = "skills/codex-review"
+
+[targets]
+gemini = "none"
+cursor = "none"
+
+[manual]
+any = [
+  "Установите и залогиньтесь в оба CLI: Claude Code и Codex",
+]
+
+[manual_en]
+any = ["Install and sign in to both CLIs: Claude Code and Codex"]

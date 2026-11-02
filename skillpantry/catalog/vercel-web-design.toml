@@ -1,0 +1,49 @@
+id = "vercel-web-design"
+number = 23
+name = "Web Design Guidelines (Vercel)"
+category = "design-frontend"
+summary = "Ревью UI-кода по Web Interface Guidelines с замечаниями в формате file:line"
+description = """
+Скилл `web-design-guidelines` тянет актуальные правила по URL, читает указанные файлы и выдаёт
+замечания file:line — удобно для UI/a11y-ревью в PR. По желанию (--optional) из того же репозитория:
+`react-best-practices`, `composition-patterns`, `react-view-transitions`.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["frontend", "react", "a11y", "review"]
+risk_notes = [
+  "Правила подгружаются с raw.githubusercontent.com при каждом ревью — содержимое по ссылке может меняться",
+]
+
+summary_en = "UI code review against the Web Interface Guidelines with file:line findings"
+description_en = """
+The `web-design-guidelines` skill fetches the current rules from a URL, reads the given files
+and reports file:line findings — handy for UI/a11y review in PRs. Optional (--optional) from the
+same repository: `react-best-practices`, `composition-patterns`, `react-view-transitions`.
+"""
+risk_notes_en = [
+  "The rules are loaded from raw.githubusercontent.com on every review — the content behind the link can change",
+]
+
+[source]
+repo = "vercel-labs/agent-skills"
+ref = "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62"
+license = "MIT"
+
+[[skills]]
+path = "skills/web-design-guidelines"
+
+[[skills]]
+path = "skills/react-best-practices"
+optional = true
+
+[[skills]]
+path = "skills/composition-patterns"
+optional = true
+
+[[skills]]
+path = "skills/react-view-transitions"
+optional = true

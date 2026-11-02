@@ -1,0 +1,55 @@
+id = "rea"
+number = 2
+name = "rea — Reverse Engineer Anything"
+category = "security"
+summary = "Реверс-инжиниринг приложений и бинарников агентом (Ghidra, Hopper, pwndbg) через MCP"
+description = """
+Скилл и MCP-сервер (`rea-agents` из npm) для реверс-инжиниринга: от поведения приложения до
+нативных бинарников. Устанавливаются скилл `reverse-engineer-anything` и MCP-сервер.
+Остальные скиллы в репозитории — для разработчиков самого rea, они не ставятся.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["reverse-engineering", "binary", "mcp"]
+risk_notes = [
+  "Инструмент двойного назначения: только своё ПО, CTF, аудит с разрешения владельца",
+  "MCP-сервер ставится из npm при первом запуске (npx -y rea-agents) и выполняет код на вашей машине",
+]
+
+summary_en = "Reverse engineering of apps and binaries by the agent (Ghidra, Hopper, pwndbg) over MCP"
+description_en = """
+A skill and an MCP server (`rea-agents` from npm) for reverse engineering, from an app's
+behavior to native binaries. Installs the `reverse-engineer-anything` skill and the MCP server.
+The other skills in the repository are for rea's own developers and are not installed.
+"""
+risk_notes_en = [
+  "A dual-use tool: only your own software, CTFs, or audits with the owner's permission",
+  "The MCP server is installed from npm on first run (npx -y rea-agents) and runs code on your machine",
+]
+
+[source]
+repo = "morluto/rea"
+ref = "93b8b82db70279e40f484114cff9dc1958dc14ee"
+license = "MIT"
+
+[[skills]]
+path = ".agents/skills/reverse-engineer-anything"
+
+[mcp.rea]
+command = "npx"
+args = ["-y", "rea-agents", "mcp"]
+
+[manual]
+any = [
+  "Мастер настройки инструментов (Ghidra и др.): npx rea-agents setup",
+]
+"claude-code" = [
+  "Альтернатива — плагин: /plugin marketplace add morluto/rea, затем /plugin install rea@rea",
+]
+
+[manual_en]
+any = ["Tool setup wizard (Ghidra and others): npx rea-agents setup"]
+"claude-code" = ["Alternative — as a plugin: /plugin marketplace add morluto/rea, then /plugin install rea@rea"]

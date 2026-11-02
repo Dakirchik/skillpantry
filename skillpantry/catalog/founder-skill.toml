@@ -1,0 +1,36 @@
+id = "founder-skill"
+number = 41
+name = "founder-skill"
+category = "product"
+summary = "11 скиллов проверки бизнеса до запуска: совет директоров, CFO, маркетинг, панель из 100 покупателей"
+description = """
+Совет (Хормози, Тиль, Джобс как «линзы»), конкуренты, потребительская панель из 100 агентов-покупателей,
+ценообразование, оффер, CFO, маркетинг, бренд, операции, план запуска и бизнес-план.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["startup", "business", "product"]
+risk_notes = [
+  "Панель «покупателей» — симуляция LLM, не замена реальным интервью",
+]
+
+summary_en = "11 skills to test a business before launch: board of advisors, CFO, marketing, a 100-buyer panel"
+description_en = """
+An advisory board (Hormozi, Thiel, Jobs as “lenses”), competitors, a consumer panel of 100 buyer
+agents, pricing, the offer, CFO, marketing, brand, operations, a launch plan and a business
+plan.
+"""
+risk_notes_en = [
+  "The “buyer” panel is an LLM simulation, not a substitute for real interviews",
+]
+
+[source]
+repo = "Jakeschincariol/founder-skill"
+ref = "fd9385b0cfe1b96bebce3898fbd506d73eff5a9d"
+license = "MIT"
+
+[[skills]]
+path = "skills/founder-*"

@@ -1,0 +1,37 @@
+id = "frontend-design"
+number = 20
+name = "frontend-design (Anthropic)"
+category = "design-frontend"
+summary = "Официальный скилл Anthropic: осмысленный, не шаблонный UI — типографика, цвет, композиция"
+description = """
+Скилл из официального маркетплейса claude-plugins-official. Ставится сам SKILL.md, без плагина.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["design", "frontend", "anthropic"]
+overlaps = ["taste-skill", "impeccable"]
+
+summary_en = "Anthropic's official skill: deliberate, non-generic UI — typography, color, composition"
+description_en = """
+A skill from the official claude-plugins-official marketplace. Only the SKILL.md is installed,
+without the plugin.
+"""
+
+[source]
+repo = "anthropics/claude-plugins-official"
+ref = "a7ba5b93db0c7c8d17f3f1d25853adca79598a1a"
+license = "Apache-2.0"
+
+[[skills]]
+path = "plugins/frontend-design/skills/frontend-design"
+
+[manual]
+"claude-code" = [
+  "Альтернатива — плагином: /plugin install frontend-design@claude-plugins-official",
+]
+
+[manual_en]
+"claude-code" = ["Alternative — as a plugin: /plugin install frontend-design@claude-plugins-official"]

@@ -1,0 +1,32 @@
+id = "karpathy-skills"
+number = 12
+name = "andrej-karpathy-skills"
+category = "dev-process"
+summary = "Один файл правил против типичных ошибок LLM в коде (по наблюдениям Карпати)"
+description = """
+Четыре принципа: думать до кода, простота прежде всего, точечные правки, работа от проверяемой цели.
+Ставится как правила: блок в CLAUDE.md / AGENTS.md / GEMINI.md или файл .cursor/rules/karpathy-skills.mdc.
+Самый дешёвый способ улучшить поведение агента.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["rules", "coding", "quality"]
+overlaps = ["ponytail"]
+
+summary_en = "One rules file against typical LLM coding mistakes (from Karpathy's observations)"
+description_en = """
+Four principles: think before coding, simplicity first, surgical changes, work from a verifiable
+goal. Installs as rules: a block in CLAUDE.md / AGENTS.md / GEMINI.md or the file
+.cursor/rules/karpathy-skills.mdc. The cheapest way to improve an agent's behavior.
+"""
+
+[source]
+repo = "multica-ai/andrej-karpathy-skills"
+ref = "2c606141936f1eeef17fa3043a72095b4765b9c2"
+license = "MIT"
+
+[rules]
+path = "CLAUDE.md"

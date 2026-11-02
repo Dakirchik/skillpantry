@@ -1,0 +1,45 @@
+id = "agent-reach"
+number = 28
+name = "Agent-Reach"
+category = "web-data"
+summary = "«Интернет для агента»: платформы за логином, видео, китайские сайты одной командой"
+description = """
+Python-пакет со скиллом: ставит и проверяет инструменты для доступа агента к платформам,
+куда ему не попасть самому (за логином, видео, китайские площадки). Официальная установка —
+агент читает install.md по ссылке и сам ставит uv и зависимости; skillpantry этого не делает.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["web", "scraping", "social"]
+risk_notes = [
+  "Доступ к платформам за логином использует ваши cookies и аккаунты — риск блокировки и нарушения ToS",
+  "Установка «агент сам читает инструкцию по ссылке и ставит пакеты» — сначала прочитайте docs/install.md",
+]
+
+summary_en = "“Internet for the agent”: platforms behind logins, video and Chinese sites with one command"
+description_en = """
+A Python package with a skill that installs and checks the tools an agent needs to reach
+platforms it cannot open by itself (behind logins, video, Chinese sites). The official install
+has the agent read install.md from a link and install uv and dependencies itself; skillpantry
+does not do that.
+"""
+risk_notes_en = [
+  "Platforms behind logins are reached with your cookies and accounts — risk of bans and ToS violations",
+  "The install is “the agent reads instructions from a link and installs packages” — read docs/install.md first",
+]
+
+[source]
+repo = "Panniantong/Agent-Reach"
+ref = "7a38047acf26a729cbb27851e3cb81639da86b29"
+license = "MIT"
+
+[manual]
+any = [
+  "Прочитайте https://github.com/Panniantong/Agent-Reach/blob/main/docs/install.md и выполните шаги сами",
+]
+
+[manual_en]
+any = ["Read https://github.com/Panniantong/Agent-Reach/blob/main/docs/install.md and follow the steps yourself"]

@@ -1,0 +1,50 @@
+id = "real-sfx"
+number = 33
+name = "real-sfx (Clipwing)"
+category = "content"
+summary = "Саунд-дизайн для моушн-видео настоящими записанными звуками из ваших библиотек"
+description = """
+Скилл находит моменты в проекте видео и подбирает реальные звуки (свуши, удары, райзеры, фоли)
+из ВАШИХ звуковых библиотек и uisfx, без синтеза. Вопреки рилсу, Openverse в скилле не используется.
+Нужны Python и ffmpeg с фильтрами drawtext и rubberband.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["video", "audio", "sfx"]
+risk_notes = [
+  "В репозитории нет лицензии — юридически это «все права защищены»; для личного использования на свой риск",
+]
+
+summary_en = "Sound design for motion video with real recorded sounds from your libraries"
+description_en = """
+The skill finds moments in a video project and picks real sounds (whooshes, hits, risers, foley)
+from YOUR sound libraries and uisfx, with no synthesis. Despite the reel, Openverse is not used
+by the skill. Needs Python and ffmpeg with the drawtext and rubberband filters.
+"""
+risk_notes_en = [
+  "The repository has no license — legally that is “all rights reserved”; personal use at your own risk",
+]
+
+[source]
+repo = "Clipwing/skills"
+ref = "edbefcbc3474869e6cc1e8a7ca583b0efd0dab7e"
+license = "none"
+
+[[skills]]
+path = "skills/real-sfx"
+exclude = ["tests", "evals"]
+
+[manual]
+any = [
+  "ffmpeg с drawtext и rubberband (macOS: brew install ffmpeg-full)",
+  "Укажите свои библиотеки: python scripts/setup.py scan \"D:/Sounds\"",
+]
+
+[manual_en]
+any = [
+  "ffmpeg with drawtext and rubberband (macOS: brew install ffmpeg-full)",
+  "Point it at your libraries: python scripts/setup.py scan \"D:/Sounds\"",
+]

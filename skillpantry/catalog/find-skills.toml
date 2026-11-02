@@ -1,0 +1,37 @@
+id = "find-skills"
+number = 27
+name = "find-skills (Vercel)"
+category = "meta"
+summary = "Скилл, который ищет и ставит другие скиллы через каталог skills.sh"
+description = """
+№1 на skills.sh: агент ищет скилл под задачу через `npx skills find` и предлагает установить.
+Важно: устанавливает без ревью, в обход правил этого каталога. Безопаснее искать им,
+а добавлять находку через `skillpantry add <url>`.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["meta", "skills", "discovery"]
+risk_notes = [
+  "Скиллы из skills.sh — непроверенные чужие инструкции; ставьте через skillpantry add → ревью → approve",
+]
+
+summary_en = "A skill that finds and installs other skills through the skills.sh directory"
+description_en = """
+No. 1 on skills.sh: the agent looks for a skill for the task with `npx skills find` and offers
+to install it. Note: it installs without review, bypassing this catalog's rules. Safer to use it
+for searching and add what it finds with `skillpantry add <url>`.
+"""
+risk_notes_en = [
+  "Skills from skills.sh are unreviewed instructions by strangers; install them via skillpantry add → review → approve",
+]
+
+[source]
+repo = "vercel-labs/skills"
+ref = "92a9a34ac3bf88e695e468b90c7bf32f163d32c8"
+license = "MIT"
+
+[[skills]]
+path = "skills/find-skills"

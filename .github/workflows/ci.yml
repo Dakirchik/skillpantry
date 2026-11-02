@@ -1,0 +1,104 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.11", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest
+      - run: python -m pytest -q
+      - run: python -m skillpantry validate
+
+  windows-installer:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]   # Windows PowerShell 5.1 and PowerShell 7
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    env:
+      SKILLPANTRY_APPDIR: ${{ github.workspace }}\.t\app
+      SKILLPANTRY_HOME: ${{ github.workspace }}\.t\data
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install.cmd path (pantryctl.ps1 install)
+        run: .\pantryctl.ps1 install -Yes -NoPath -Library "$env:RUNNER_TEMP\lib"
+      - name: shims work
+        run: |
+          $bin = "$env:SKILLPANTRY_APPDIR\bin"
+          & "$bin\skillpantry.cmd" --version; if ($LASTEXITCODE) { exit 1 }
+          & "$bin\pantry.cmd" list --work; if ($LASTEXITCODE) { exit 1 }
+          $proj = "$env:RUNNER_TEMP\proj"; New-Item -ItemType Directory $proj | Out-Null
+          Set-Content "$proj\CLAUDE.md" "# Mine" -Encoding UTF8
+          & "$bin\skillpantry.cmd" install karpathy-skills context7 -t claude-code -p $proj -y; if ($LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path "$proj\.claude\skills\context7-mcp\SKILL.md")) { throw "skill missing" }
+          & "$bin\skillpantry.cmd" uninstall karpathy-skills context7 -t claude-code -p $proj; if ($LASTEXITCODE) { exit 1 }
+          if (Test-Path "$proj\.claude") { throw ".claude left behind" }
+          & "$bin\pantryctl.cmd" status; if ($LASTEXITCODE) { exit 1 }
+      - name: uninstall
+        run: |
+          .\pantryctl.ps1 uninstall -Purge -Yes
+          if (Test-Path "$env:SKILLPANTRY_APPDIR\bin\skillpantry.cmd") { throw "shim left behind" }
+          if (Test-Path $env:SKILLPANTRY_HOME) { throw "data left behind" }
+
+  unix-installer:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: shellcheck
+        if: runner.os == 'Linux'
+        run: shellcheck -s bash pantryctl.sh install.sh install.command
+      - name: install / use / uninstall with an isolated HOME
+        run: |
+          export HOME="$RUNNER_TEMP/home" SHELL=/bin/zsh
+          mkdir -p "$HOME"; printf '# mine\n' > "$HOME/.zshrc"; cp "$HOME/.zshrc" "$RUNNER_TEMP/zshrc.orig"
+          ./install.sh -y --python "$(command -v python3)"
+          grep -q '>>> skillpantry >>>' "$HOME/.zshrc"
+          export PATH="$HOME/.local/bin:$PATH"
+          skillpantry --version
+          proj="$RUNNER_TEMP/proj"; mkdir -p "$proj"
+          skillpantry install karpathy-skills context7 -t codex -p "$proj" -y
+          test -f "$proj/.agents/skills/context7-mcp/SKILL.md"
+          skillpantry uninstall karpathy-skills context7 -t codex -p "$proj"
+          test -z "$(ls -A "$proj")"
+          pantryctl status
+          pantryctl uninstall --purge -y
+          diff "$HOME/.zshrc" "$RUNNER_TEMP/zshrc.orig"
+          test ! -e "$HOME/.local/bin/skillpantry"
+      - name: PowerShell script also works here (5.1-style argument passing)
+        shell: pwsh
+        env:
+          SKILLPANTRY_APPDIR: ${{ runner.temp }}/ps-app
+          SKILLPANTRY_HOME: ${{ runner.temp }}/ps-data
+        run: |
+          # Windows PowerShell 5.1 does not escape " inside arguments of native programs;
+          # Legacy mode reproduces that, so quoting bugs show up on every OS, not only on Windows.
+          $PSNativeCommandArgumentPassing = "Legacy"
+          ./pantryctl.ps1 install -Yes -NoPath
+          & "$env:SKILLPANTRY_APPDIR/bin/skillpantry" validate
+          if ($LASTEXITCODE) { exit 1 }
+          ./pantryctl.ps1 uninstall -Purge -Yes

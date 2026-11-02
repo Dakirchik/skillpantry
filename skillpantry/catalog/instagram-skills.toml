@@ -1,0 +1,26 @@
+id = "instagram-skills"
+number = 11
+name = "Instagram-скиллы (13 шт.)"
+category = "content"
+summary = "/ig-reel, /ig-caption, /ig-plan, /ig-audit и др. — источник не опубликован"
+description = """
+Набор из 13 скиллов для Instagram (рилсы, подписи, карусели, сторис, профиль, контент-план,
+комментарии, директ, переупаковка, аудит). Ссылку автор раздаёт в комментариях — публичного
+репозитория нет, поэтому запись справочная. Когда появится ссылка: skillpantry add <url>.
+"""
+status = "reference"
+risk = "low"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["instagram", "content"]
+
+summary_en = "/ig-reel, /ig-caption, /ig-plan, /ig-audit and more — source not published"
+description_en = """
+A set of 13 Instagram skills (reels, captions, carousels, stories, profile, content plan,
+comments, DMs, repackaging, audit). The author shares the link in comments — there is no public
+repository, so this is a reference entry. When a link appears: skillpantry add <url>.
+"""
+
+[source]
+license = "unknown"

@@ -1,0 +1,33 @@
+id = "anatomy"
+number = 16
+name = "Anatomy"
+category = "design-frontend"
+summary = "Детальные интерактивные изометрические SVG-иллюстрации технических идей"
+description = """
+Скилл рисует «физические» изометрические схемы (стенд, прибор, шкаф с ящиками) с четырьмя тонами
+теней и опциональными WebGL-шейдерами. Подходит для схем архитектуры и объясняющих страниц.
+Нужен Node.js 20.10+ (только встроенные модули, npm install не нужен).
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["svg", "illustration", "diagrams"]
+
+summary_en = "Detailed interactive isometric SVG illustrations of technical ideas"
+description_en = """
+The skill draws “physical” isometric diagrams (a rack, a device, a cabinet with drawers) with
+four shadow tones and optional WebGL shaders. Good for architecture diagrams and explainer
+pages. Needs Node.js 20.10+ (built-in modules only, no npm install).
+"""
+
+[source]
+repo = "wheresryan22/anatomy"
+ref = "1482e8469b0a9e0d8cc18ea2740a01423d29ae80"
+license = "MIT"
+
+[[skills]]
+path = "."
+name = "anatomy"
+exclude = ["examples", "tests", "evals", "CHANGELOG.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "SECURITY.md", "README.md"]

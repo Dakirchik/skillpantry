@@ -1,0 +1,39 @@
+id = "supabase-plugin"
+number = 38
+name = "Supabase (официальный плагин)"
+category = "web-data"
+summary = "Скиллы Supabase и Postgres best practices + MCP-доступ к проектам Supabase"
+description = """
+Скиллы `supabase` и `supabase-postgres-best-practices` и удалённый MCP mcp.supabase.com:
+таблицы, миграции, Edge Functions, auth, storage. Авторизация — через OAuth при первом вызове.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["supabase", "postgres", "backend", "mcp"]
+risk_notes = [
+  "Агент получает доступ к базе: подключайте dev-проект, не прод; по возможности режим read-only",
+]
+
+summary_en = "Supabase and Postgres best-practice skills + MCP access to Supabase projects"
+description_en = """
+The `supabase` and `supabase-postgres-best-practices` skills and the remote MCP at
+mcp.supabase.com: tables, migrations, Edge Functions, auth, storage. Sign-in happens via OAuth
+on the first call.
+"""
+risk_notes_en = [
+  "The agent gets access to the database: connect a dev project, not production; use read-only mode where possible",
+]
+
+[source]
+repo = "supabase-community/supabase-plugin"
+ref = "016bf5b36670f7ad189ca90223513bd10406392d"
+license = "MIT"
+
+[[skills]]
+path = "skills/*"
+
+[mcp.supabase]
+url = "https://mcp.supabase.com/mcp"

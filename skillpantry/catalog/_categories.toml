@@ -1,0 +1,142 @@
+# Категории каталога: первый шаг в мастере установки и группировка в списках.
+# Ключ таблицы — значение поля `category` в манифестах. Порядок — поле order.
+# Свои категории добавляйте в ~/.skillpantry/catalog/_categories.toml (или через форму
+# «Добавить своё»): этот файл перезаписывается при обновлении skillpantry.
+
+[own]
+order = 0
+title = "Свои"
+description = """
+Ваши записи: собственные скиллы и правила из папок на компьютере и то, что вы добавили
+по ссылке на GitHub. Хранятся отдельно от общего каталога, в ~/.skillpantry/catalog.
+"""
+title_en = "Mine"
+description_en = """
+Your entries: your own skills and rules from folders on your computer and what you added from a
+GitHub link. Kept apart from the shared catalog, in ~/.skillpantry/catalog.
+"""
+
+[dev-process]
+order = 1
+title = "Разработка и процесс"
+description = """
+Как агент пишет код: дисциплина (меньше лишнего кода, точечные правки), полный цикл
+спека → план → код → тесты → ревью, перекрёстное ревью двумя моделями, готовые стеки
+настроек для Claude Code.
+"""
+title_en = "Development and process"
+description_en = """
+How the agent writes code: discipline (less extra code, surgical edits), the full spec → plan →
+code → tests → review cycle, cross-review by two models, ready-made Claude Code setups.
+"""
+
+[design-frontend]
+order = 2
+title = "Дизайн и фронтенд"
+description = """
+Интерфейсы без «ИИ-шаблонности»: арт-дирекшн, словарь дизайна, DESIGN.md с дизайн-языком,
+ревью UI по гайдлайнам, компоненты React/Tailwind, иллюстрации и браузер для проверки вёрстки.
+"""
+title_en = "Design and frontend"
+description_en = """
+Interfaces without the “AI template” look: art direction, a design vocabulary, DESIGN.md with a
+design language, UI review against guidelines, React/Tailwind components, illustrations and a
+browser to check layouts.
+"""
+
+[code-understanding]
+order = 3
+title = "Документация и понимание кода"
+description = """
+Чтобы агент меньше выдумывал: актуальная документация библиотек и граф знаний по кодовой
+базе для онбординга и поиска связей.
+"""
+title_en = "Docs and code understanding"
+description_en = """
+So the agent makes up less: up-to-date library docs and a knowledge graph of the codebase for
+onboarding and finding connections.
+"""
+
+[tokens-models]
+order = 4
+title = "Токены, модели и память"
+description = """
+Экономия токенов (сжатие вывода команд и контекста), шлюзы между агентом и моделями,
+память между сессиями. Почти всё ставится вручную и видит весь трафик агента.
+"""
+title_en = "Tokens, models and memory"
+description_en = """
+Saving tokens (compressing command output and context), gateways between the agent and models,
+memory across sessions. Almost all of it is installed by hand and sees all agent traffic.
+"""
+
+[web-data]
+order = 5
+title = "Веб, данные и бэкенд"
+description = """
+Доступ агента к сайтам и данным: сайт как API, платформы за логином, база и миграции Supabase.
+"""
+title_en = "Web, data and backend"
+description_en = """
+Agent access to websites and data: a site as an API, platforms behind logins, the Supabase
+database and migrations.
+"""
+
+[product]
+order = 6
+title = "Продукт, бизнес и карьера"
+description = """
+Проверка идеи и запуска, разбор конкурентов, симуляция аудитории, поиск работы и резюме.
+"""
+title_en = "Product, business and career"
+description_en = """
+Testing an idea and a launch, competitor analysis, audience simulation, job search and CVs.
+"""
+
+[content]
+order = 7
+title = "Контент, медиа и SEO"
+description = """
+Instagram и YouTube, звук для видео, медиа с открытыми лицензиями, синтез речи, Search Console
+и SEO-аналитика.
+"""
+title_en = "Content, media and SEO"
+description_en = """
+Instagram and YouTube, sound for video, openly licensed media, speech synthesis, Search Console
+and SEO analytics.
+"""
+
+[security]
+order = 8
+title = "Безопасность и исследование"
+description = """
+Пентест, реверс-инжиниринг, геолокация фото. Инструменты двойного назначения: только свои
+системы и легальные задачи, на рабочих проектах — через ИБ.
+"""
+title_en = "Security and research"
+description_en = """
+Pentesting, reverse engineering, photo geolocation. Dual-use tools: only your own systems and
+legal tasks; on work projects only through your security team.
+"""
+
+[meta]
+order = 9
+title = "Скиллы для скиллов"
+description = """
+Поиск новых скиллов и наблюдатель, который предлагает улучшать ваши скиллы по ходу работы.
+"""
+title_en = "Skills for skills"
+description_en = """
+Finding new skills and an observer that suggests improving your skills as you work.
+"""
+
+[excluded]
+order = 99
+title = "Исключённые"
+description = """
+Записи, которые сознательно не ставятся. Причина — в описании записи.
+"""
+title_en = "Excluded"
+description_en = """
+Entries that are deliberately not installed. The reason is in the entry's description.
+"""

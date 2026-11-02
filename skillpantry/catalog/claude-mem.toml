@@ -1,0 +1,62 @@
+id = "claude-mem"
+number = 32
+name = "claude-mem"
+category = "tokens-models"
+summary = "Память между сессиями: записывает работу агента, сжимает ИИ и подставляет в новые сессии"
+description = """
+Плагин с хуками и локальным воркером. Поддерживает Claude Code, Codex, Gemini, Copilot, OpenCode
+и др. Ставится только плагином/инсталлятором — вручную. По смыслу пересекается с другими инструментами памяти агента, например agent-recall.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["memory", "context", "hooks"]
+risk_notes = [
+  "Хранит всё, что делал агент, включая код и переписку — выясните, где лежит база и кто имеет доступ",
+  "Версия claude-mem-cowork отправляет вызовы инструментов на cmem.ai — не для рабочих проектов",
+  "Сжатие воспоминаний делает LLM — это дополнительный расход токенов",
+  "По умолчанию установщик предлагает облачную память CMEM Pro (вход по e-mail); локальный режим — флаг --provider host",
+]
+
+summary_en = "Memory across sessions: records the agent's work, compresses it with AI and feeds it into new sessions"
+description_en = """
+A plugin with hooks and a local worker. Supports Claude Code, Codex, Gemini, Copilot, OpenCode
+and others. Installs only through its plugin/installer — by hand. Overlaps with other
+agent-memory tools such as agent-recall.
+"""
+risk_notes_en = [
+  "Stores everything the agent did, including code and conversations — find out where the database lives and who can access it",
+  "The claude-mem-cowork edition sends tool calls to cmem.ai — not for work projects",
+  "Memories are compressed by an LLM — extra token spend",
+  "By default the installer offers the CMEM Pro cloud memory (e-mail sign-in); local mode is the --provider host flag",
+]
+
+[source]
+repo = "thedotmack/claude-mem"
+ref = "26ccf4d8a029d97fb5fb88a9f1ddd73729ad1b1a"
+license = "Apache-2.0"
+
+[targets]
+claude-code = "manual"
+codex = "manual"
+gemini = "none"
+cursor = "none"
+folder = "none"
+
+[manual]
+"claude-code" = [
+  "Локально, без облака: npx claude-mem install --provider host",
+  "(или плагином: /plugin marketplace add thedotmack/claude-mem, затем /plugin install claude-mem)",
+]
+codex = [
+  "Через T3 Code (Codex и Claude Code): npx claude-mem install --ide t3code --provider host",
+]
+
+[manual_en]
+"claude-code" = [
+  "Local, no cloud: npx claude-mem install --provider host",
+  "(or as a plugin: /plugin marketplace add thedotmack/claude-mem, then /plugin install claude-mem)",
+]
+codex = ["Through T3 Code (Codex and Claude Code): npx claude-mem install --ide t3code --provider host"]

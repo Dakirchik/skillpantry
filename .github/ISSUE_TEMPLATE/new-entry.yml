@@ -1,0 +1,32 @@
+name: New catalog entry
+description: Suggest a skill, rules file, plugin or MCP server for the catalog
+labels: ["catalog"]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: Repository
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What it does and why it belongs here
+      description: One or two sentences, the way it would read in the catalog.
+    validations:
+      required: true
+  - type: checkboxes
+    id: agents
+    attributes:
+      label: Works with
+      options:
+        - label: Claude Code
+        - label: Codex
+        - label: Gemini CLI
+        - label: Cursor
+  - type: textarea
+    id: risks
+    attributes:
+      label: Anything a reviewer should look at
+      description: Scripts, hooks, network calls, accounts or keys it needs, license questions.

@@ -1,0 +1,69 @@
+id = "graphify"
+number = 5
+name = "graphify"
+category = "code-understanding"
+summary = "Кодовая база + доки + SQL + PDF → граф знаний, по которому агент ходит запросами"
+description = """
+Код разбирается локально через tree-sitter AST: детерминированно, без LLM, ничего не уходит с машины.
+Документы, PDF и картинки обрабатываются моделью вашего ассистента. Связи помечены EXTRACTED или
+INFERRED. Без эмбеддингов и векторной базы. Ставится как Python-CLI, который сам регистрирует
+скилл `/graphify` в Claude Code, Codex, Cursor и Gemini CLI.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["codebase", "knowledge-graph", "onboarding"]
+risk_notes = [
+  "Graphify Cloud — платная облачная часть, для работы не нужна",
+]
+overlaps = ["understand-anything"]
+
+summary_en = "Codebase + docs + SQL + PDF → a knowledge graph the agent queries"
+description_en = """
+Code is parsed locally with tree-sitter ASTs: deterministic, no LLM, nothing leaves the machine.
+Documents, PDFs and images are processed by your assistant's model. Relations are marked
+EXTRACTED or INFERRED. No embeddings or vector database. Installs as a Python CLI that registers
+the `/graphify` skill in Claude Code, Codex, Cursor and Gemini CLI itself.
+"""
+risk_notes_en = [
+  "Graphify Cloud is a paid cloud part, not needed to use it",
+]
+
+[source]
+repo = "Graphify-Labs/graphify"
+ref = "32e5efe935e6844ef39a5e33409e4efe848f2172"
+license = "Apache-2.0"
+
+[manual]
+any = [
+  "Нужны Python 3.10+ и uv (или pipx)",
+  "uv tool install graphifyy   (или: pipx install graphifyy)",
+]
+"claude-code" = [
+  "graphify install --project   (в корне проекта)",
+]
+codex = [
+  "graphify install --project --platform codex",
+]
+gemini = [
+  "graphify install --project   (определит платформу; см. README для --platform)",
+]
+cursor = [
+  "graphify install --project   (определит платформу; см. README для --platform)",
+]
+folder = [
+  "Затем в проекте: graphify install --project",
+]
+
+[manual_en]
+any = [
+  "Needs Python 3.10+ and uv (or pipx)",
+  "uv tool install graphifyy   (or: pipx install graphifyy)",
+]
+"claude-code" = ["graphify install --project   (in the project root)"]
+codex = ["graphify install --project --platform codex"]
+gemini = ["graphify install --project   (detects the platform; see the README for --platform)"]
+cursor = ["graphify install --project   (detects the platform; see the README for --platform)"]
+folder = ["Then in the project: graphify install --project"]

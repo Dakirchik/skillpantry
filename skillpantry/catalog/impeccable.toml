@@ -1,0 +1,38 @@
+id = "impeccable"
+number = 44
+name = "Impeccable"
+category = "design-frontend"
+summary = "«Словарь дизайна» для агента: 24 команды (polish, bolder, critique, audit) против AI slop"
+description = """
+Один скилл с 24 командами (/impeccable polish, /impeccable audit, /impeccable critique …) и
+каталогом анти-паттернов. Для каждой цели берётся своя сборка скилла из репозитория.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["design", "frontend", "anti-slop"]
+risk_notes = [
+  "В скилле есть команда, которая сама ставит хуки в .claude/settings*.json, .gemini/settings.json и др. — включайте её только осознанно",
+  "Скрипты на Node.js (live-browser, детектор анти-паттернов) запускаются агентом локально",
+]
+overlaps = ["frontend-design", "taste-skill"]
+
+summary_en = "A “design vocabulary” for the agent: 24 commands (polish, bolder, critique, audit) against AI slop"
+description_en = """
+One skill with 24 commands (/impeccable polish, /impeccable audit, /impeccable critique …) and a
+catalog of anti-patterns. Each target gets its own build of the skill from the repository.
+"""
+risk_notes_en = [
+  "The skill has a command that installs hooks into .claude/settings*.json, .gemini/settings.json and others by itself — turn it on only deliberately",
+  "Node.js scripts (live browser, anti-pattern detector) are run locally by the agent",
+]
+
+[source]
+repo = "pbakaus/impeccable"
+ref = "e89e3ada3e875a89ac2c5d33d11e65ebef6fe285"
+license = "Apache-2.0"
+
+[[skills]]
+paths = { "claude-code" = ".claude/skills/impeccable", "codex" = ".agents/skills/impeccable", "gemini" = ".gemini/skills/impeccable", "cursor" = ".cursor/skills/impeccable", "default" = ".agents/skills/impeccable" }

@@ -1,0 +1,33 @@
+id = "taste-skill"
+number = 21
+name = "Taste Skill"
+category = "design-frontend"
+summary = "Арт-дирекшн для кодинг-агентов: референсы, библиотека направлений и проверка в браузере"
+description = """
+Скилл `design-taste-frontend` (v2): библиотека исследованных направлений, реальные изображения из
+открытых коллекций и инспектор в настоящем браузере вместо типовых «ИИ-страниц». Скрипты на Node.js.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["design", "frontend", "anti-slop"]
+overlaps = ["frontend-design", "impeccable"]
+
+summary_en = "Art direction for coding agents: references, a library of directions and checks in a real browser"
+description_en = """
+The `design-taste-frontend` skill (v2): a library of researched directions, real images from
+open collections and an inspector in a real browser instead of generic “AI pages”. Node.js
+scripts.
+"""
+
+[source]
+repo = "Leonxlnx/taste-skill"
+ref = "12af471f627f866411b4bd785b19646d3672784c"
+license = "MIT"
+
+[[skills]]
+path = "skills/taste-skill"
+name = "design-taste-frontend"
+exclude = ["evals"]

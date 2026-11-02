@@ -1,0 +1,36 @@
+id = "watermarks-remover"
+number = 17
+name = "watermarks-remover"
+category = "excluded"
+summary = "Исключено: удаляет маркировку ИИ-контента (C2PA, скрытые водяные знаки)"
+description = """
+По README и манифесту плагина инструмент предназначен для удаления меток происхождения ИИ-контента:
+невидимых Unicode-маркеров, статистических водяных знаков в тексте (через переписывание) и
+C2PA/EXIF/XMP в медиа («anti-detection hygiene»). Это обход раскрытия, что контент сгенерирован ИИ,
+поэтому запись в каталоге только для справки и через skillpantry не ставится.
+"""
+status = "excluded"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["excluded"]
+risk_notes = [
+  "Сокрытие маркировки ИИ-контента может нарушать правила платформ и законы о раскрытии",
+]
+
+summary_en = "Excluded: removes AI-content labeling (C2PA, hidden watermarks)"
+description_en = """
+According to its README and plugin manifest, the tool is meant to strip provenance marks from AI
+content: invisible Unicode markers, statistical text watermarks (by rewriting) and C2PA/EXIF/XMP
+in media (“anti-detection hygiene”). That defeats disclosure that content is AI-generated, so
+the entry is reference-only and skillpantry does not install it.
+"""
+risk_notes_en = [
+  "Hiding AI-content labels may break platform rules and disclosure laws",
+]
+
+[source]
+repo = "guillaumemeyer/watermarks-remover"
+ref = "5a62be6338d2812372b1da440e55c82922f97d53"
+license = "MIT"

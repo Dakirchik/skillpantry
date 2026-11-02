@@ -1,0 +1,32 @@
+id = "fish-audio"
+number = 8
+name = "Fish Audio S2.1 Pro"
+category = "content"
+summary = "Бесплатный TTS API для разработчиков, ~90 мс до начала речи"
+description = """
+Облачный text-to-speech API. Не скилл и не репозиторий — справочная запись: подключается обычным
+HTTP-клиентом или обёрткой в MCP/скилл. Ставить через skillpantry нечего.
+"""
+status = "reference"
+risk = "low"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["tts", "audio", "api"]
+risk_notes = [
+  "Тексты уходят во внешний сервис; условия бесплатного тарифа проверяйте на сайте",
+]
+
+summary_en = "Free TTS API for developers, ~90 ms to first audio"
+description_en = """
+A cloud text-to-speech API. Not a skill and not a repository — a reference entry: connect it
+with a regular HTTP client or wrap it into an MCP server or skill. Nothing to install with
+skillpantry.
+"""
+risk_notes_en = [
+  "Texts go to an external service; check the free tier terms on the website",
+]
+
+[source]
+url = "https://fish.audio/blog/s2-1-pro-free-api"
+license = "proprietary"

@@ -1,0 +1,42 @@
+id = "magic-mcp"
+number = 6
+name = "21st magic-mcp"
+category = "design-frontend"
+summary = "Поиск и установка 10 000+ React/Tailwind-компонентов и генерация UI из агента (MCP)"
+description = """
+Официальный MCP 21st.dev (удалённый, по HTTP) и скилл `21st-ui`: поиск компонентов и тем,
+получение кода, генерация UI через 21st AI. Нужен ключ API_KEY_21ST: 21st.dev/magic/console.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["ui", "react", "tailwind", "mcp", "frontend"]
+risk_notes = [
+  "Ваши описания UI уходят во внешний сервис 21st.dev",
+  "Компоненты на Tailwind/shadcn — в проекте со своей дизайн-системой их придётся адаптировать",
+]
+
+summary_en = "Find and install 10,000+ React/Tailwind components and generate UI from the agent (MCP)"
+description_en = """
+The official 21st.dev MCP (remote, over HTTP) and the `21st-ui` skill: search components and
+themes, get their code, generate UI with 21st AI. Needs the API_KEY_21ST key:
+21st.dev/magic/console.
+"""
+risk_notes_en = [
+  "Your UI descriptions go to the external 21st.dev service",
+  "Components are Tailwind/shadcn — in a project with its own design system they need adapting",
+]
+
+[source]
+repo = "21st-dev/magic-mcp"
+ref = "6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55"
+license = "ISC"
+
+[[skills]]
+path = "skills/21st-ui"
+
+[mcp.21st]
+url = "https://21st.dev/api/mcp"
+headers = { "x-api-key" = "${API_KEY_21ST}" }

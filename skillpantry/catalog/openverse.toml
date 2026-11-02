@@ -1,0 +1,31 @@
+id = "openverse"
+number = 15
+name = "Openverse API"
+category = "content"
+summary = "Поиск изображений и звуков с открытыми лицензиями (Creative Commons)"
+description = """
+Поисковик WordPress по медиа с открытыми лицензиями и открытым API (api.openverse.org).
+Справочная запись: подключается HTTP-запросами или обёрткой в MCP/скилл.
+"""
+status = "reference"
+risk = "low"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["images", "audio", "creative-commons", "api"]
+risk_notes = [
+  "Проверяйте лицензию и требования атрибуции у каждого файла",
+]
+
+summary_en = "Search for openly licensed images and sounds (Creative Commons)"
+description_en = """
+WordPress's search engine for openly licensed media with an open API (api.openverse.org). A
+reference entry: connect it with HTTP requests or wrap it into an MCP server or skill.
+"""
+risk_notes_en = [
+  "Check the license and attribution requirements of every file",
+]
+
+[source]
+url = "https://openverse.org"
+license = "MIT"

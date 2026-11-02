@@ -1,0 +1,42 @@
+id = "claude-code-setup"
+number = 25
+name = "claude-code-setup (Anthropic)"
+category = "dev-process"
+summary = "Официальный скилл: анализирует проект и советует хуки, субагентов, скиллы, плагины и MCP"
+description = """
+Скилл `claude-automation-recommender` из официального маркетплейса. Содержание про автоматизации
+Claude Code, поэтому только для Claude Code (и папки).
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["claude-code", "setup", "anthropic"]
+
+summary_en = "Official skill: analyzes the project and recommends hooks, subagents, skills, plugins and MCP"
+description_en = """
+The `claude-automation-recommender` skill from the official marketplace. It is about Claude Code
+automations, so it is for Claude Code (and the folder target) only.
+"""
+
+[source]
+repo = "anthropics/claude-plugins-official"
+ref = "a7ba5b93db0c7c8d17f3f1d25853adca79598a1a"
+license = "Apache-2.0"
+
+[[skills]]
+path = "plugins/claude-code-setup/skills/claude-automation-recommender"
+
+[targets]
+codex = "none"
+gemini = "none"
+cursor = "none"
+
+[manual]
+"claude-code" = [
+  "Альтернатива — плагином: /plugin install claude-code-setup@claude-plugins-official",
+]
+
+[manual_en]
+"claude-code" = ["Alternative — as a plugin: /plugin install claude-code-setup@claude-plugins-official"]

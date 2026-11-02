@@ -1,0 +1,56 @@
+id = "career-ops"
+number = 1
+name = "career-ops"
+category = "product"
+summary = "ИИ-поиск работы: разбор вакансий, отчёт A–H с оценкой, адаптация резюме, трекинг откликов"
+description = """
+Рабочее пространство для поиска работы в вашем ИИ-CLI: сканирование порталов, разбор вакансии в
+структурированный отчёт A–H с оценкой 1–5, подгонка резюме и сопроводительных, трекинг откликов.
+Скилл ссылается на папку `modes/` в корне репозитория, поэтому ставится только целиком как рабочая
+папка (цель folder). В `modes/ru/` — русские режимы для hh.ru, Хабр Карьеры, trudvsem.
+Внутри уже есть CLAUDE.md, AGENTS.md и GEMINI.md: откройте папку в нужном агенте.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["job-search", "resume", "ru"]
+risk_notes = [
+  "В папку попадут ваше резюме и персональные данные — не публикуйте её и не коммитьте в чужие репозитории",
+  "Сканирование порталов должно соответствовать их правилам использования",
+]
+
+summary_en = "AI job search: job posting analysis, an A–H scored report, tailored CVs, application tracking"
+description_en = """
+A job-search workspace for your AI CLI: scanning job portals, turning a posting into a
+structured A–H report with a 1–5 score, tailoring CVs and cover letters, tracking applications.
+The skill refers to the `modes/` folder at the repository root, so it installs only as a whole
+workspace folder (target folder). `modes/ru/` has Russian modes for hh.ru, Habr Career and
+trudvsem. CLAUDE.md, AGENTS.md and GEMINI.md are already inside: open the folder in the agent
+you use.
+"""
+risk_notes_en = [
+  "Your CV and personal data end up in the folder — do not publish it or commit it to other repositories",
+  "Portal scanning must follow the portals' terms of use",
+]
+
+[source]
+repo = "career-ops-hq/career-ops"
+ref = "20b9fd3a9c86d28c847e021f4dbbe93ce9a39a00"
+license = "MIT"
+
+[workspace]
+exclude = [".git", ".github"]
+
+[manual]
+folder = [
+  "Откройте папку career-ops в Claude Code, Codex или Gemini CLI — инструкции агента уже внутри",
+  "Если нужны скрипты сканирования и PDF: в папке выполните npm install",
+]
+
+[manual_en]
+folder = [
+  "Open the career-ops folder in Claude Code, Codex or Gemini CLI — the agent instructions are already inside",
+  "For the scanning scripts and PDFs: run npm install in the folder",
+]

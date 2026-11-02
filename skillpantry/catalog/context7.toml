@@ -1,0 +1,49 @@
+id = "context7"
+number = 4
+name = "Context7"
+category = "code-understanding"
+summary = "Актуальная версионная документация библиотек прямо в контекст агента (MCP)"
+description = """
+MCP-сервер Upstash, который подтягивает свежую документацию и примеры кода нужной версии
+библиотеки. Убирает устаревшие примеры и выдуманные API. В запросе достаточно написать
+«use context7». Ставятся MCP-сервер и скилл `context7-mcp`, подсказывающий агенту, когда его звать;
+скилл `find-docs` (через CLI ctx7) — по желанию (--optional).
+Ключ не обязателен (без него ниже лимиты). С ключом добавьте в args: "--api-key", "${CONTEXT7_API_KEY}".
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["docs", "mcp", "frontend"]
+risk_notes = [
+  "В сервис уходят названия библиотек и ваши вопросы к документации, но не код проекта — не вставляйте в вопрос секреты",
+]
+
+summary_en = "Up-to-date, version-specific library docs right in the agent's context (MCP)"
+description_en = """
+Upstash's MCP server that pulls fresh documentation and code examples for the exact library
+version. Removes outdated examples and made-up APIs. Writing “use context7” in a request is
+enough. Installs the MCP server and the `context7-mcp` skill that tells the agent when to call
+it; the `find-docs` skill (via the ctx7 CLI) is optional (--optional). A key is not required
+(lower limits without one). With a key, add to args: "--api-key", "${CONTEXT7_API_KEY}".
+"""
+risk_notes_en = [
+  "Library names and your documentation questions go to the service, not your project code — do not put secrets in questions",
+]
+
+[source]
+repo = "upstash/context7"
+ref = "18d6f5d632d4cf53c464f36c79d2e4caa19a8e56"
+license = "MIT"
+
+[[skills]]
+path = "skills/context7-mcp"
+
+[[skills]]
+path = "skills/find-docs"
+optional = true
+
+[mcp.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]

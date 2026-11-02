@@ -1,0 +1,52 @@
+id = "geo-sleuth"
+number = 9
+name = "geo-sleuth"
+category = "security"
+summary = "Геолокация и датировка фото с проверяемыми доказательствами"
+description = """
+Скилл со скриптами на Python: метаданные, OCR, обратный поиск изображений (Baidu, Yandex),
+доска кандидатов и спутниковое подтверждение. Нужны Python 3.10+, uv и curl; при первом
+запуске попросите агента выполнить `scripts/doctor.py`.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["osint", "geolocation", "images"]
+risk_notes = [
+  "Не использовать для установления местонахождения конкретных людей",
+  "Фото загружаются в сервисы обратного поиска Baidu и Yandex — не отправляйте личные и рабочие снимки",
+]
+
+summary_en = "Geolocating and dating photos with verifiable evidence"
+description_en = """
+A skill with Python scripts: metadata, OCR, reverse image search (Baidu, Yandex), a board of
+candidates and satellite confirmation. Needs Python 3.10+, uv and curl; on the first run ask the
+agent to run `scripts/doctor.py`.
+"""
+risk_notes_en = [
+  "Do not use it to find where specific people are",
+  "Photos are uploaded to Baidu and Yandex reverse search — do not send personal or work pictures",
+]
+
+[source]
+repo = "Oldcircle/geo-sleuth"
+ref = "1a9ecee153b02e2db2e62352002fa5b17bbd819d"
+license = "MIT"
+
+[[skills]]
+path = "skills/geo-sleuth"
+exclude = ["tests"]
+
+[manual]
+any = [
+  "Установите uv (docs.astral.sh/uv) и Chromium для Playwright: uvx playwright install chromium",
+  "Первый запуск: попросите агента выполнить scripts/doctor.py из папки скилла",
+]
+
+[manual_en]
+any = [
+  "Install uv (docs.astral.sh/uv) and Chromium for Playwright: uvx playwright install chromium",
+  "First run: ask the agent to run scripts/doctor.py from the skill folder",
+]

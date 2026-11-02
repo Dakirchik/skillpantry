@@ -1,0 +1,48 @@
+id = "ecc"
+number = 29
+name = "ECC (Everything Claude Code)"
+category = "dev-process"
+summary = "Огромная сборка: 71 агент, 314 скиллов, хуки, правила и профили для Claude Code и не только"
+description = """
+Готовый «стек» для инженерных команд. Слишком большой, чтобы ставить целиком: используйте мастер
+с профилями или берите отдельные скиллы по образцу через skillpantry add.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["stack", "agents", "hooks", "rules"]
+risk_notes = [
+  "Сотни скиллов и хуков: описания занимают контекст, хуки выполняют код при каждом действии агента",
+]
+
+summary_en = "A huge bundle: 71 agents, 314 skills, hooks, rules and profiles for Claude Code and more"
+description_en = """
+A ready-made “stack” for engineering teams. Too big to install whole: use its wizard with
+profiles or take individual skills as examples via skillpantry add.
+"""
+risk_notes_en = [
+  "Hundreds of skills and hooks: descriptions take context, hooks run code on every agent action",
+]
+
+[source]
+repo = "affaan-m/ECC"
+ref = "b38be6a7f6350964d59328b52f0624e1d1d552d1"
+license = "MIT"
+
+[manual]
+"claude-code" = [
+  "npx ecc-universal@2.2.3 setup   (мастер: выбор scope и профиля хуков)",
+]
+codex = [
+  "npx ecc-universal@2.2.3 install --guided",
+]
+any = [
+  "Выборочно: смотрите профили в README перед установкой",
+]
+
+[manual_en]
+"claude-code" = ["npx ecc-universal@2.2.3 setup   (wizard: pick the scope and hook profile)"]
+codex = ["npx ecc-universal@2.2.3 install --guided"]
+any = ["Selectively: read the profiles in the README before installing"]

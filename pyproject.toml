@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skillpantry"
+version = "0.5.0"
+description = "Pick reviewed AI-agent skills, rules and MCP servers in a terminal UI and install them into Claude Code, Codex, Gemini CLI, Cursor or a plain folder — pinned, audited, removable."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Dakirchik" }]
+keywords = ["agent-skills", "claude-code", "codex", "gemini-cli", "cursor", "mcp", "skills", "ai-agents", "tui", "cli"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Environment :: Console",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Dakirchik/skillpantry"
+Issues = "https://github.com/Dakirchik/skillpantry/issues"
+Changelog = "https://github.com/Dakirchik/skillpantry/blob/main/CHANGELOG.md"
+
+[project.scripts]
+skillpantry = "skillpantry.cli:main"
+pantry = "skillpantry.cli:main"
+
+[tool.setuptools]
+packages = ["skillpantry"]
+
+[tool.setuptools.package-data]
+skillpantry = ["catalog/*.toml"]

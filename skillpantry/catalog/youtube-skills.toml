@@ -1,0 +1,26 @@
+id = "youtube-skills"
+number = 19
+name = "YouTube-скиллы (11 шт.)"
+category = "content"
+summary = "/yt-script, /yt-seo, /yt-shorts, /yt-audit и др. — источник не опубликован"
+description = """
+Набор из 11 скиллов для YouTube (сценарий, упаковка, монтаж, комментарии, контент-план, вирусность,
+удержание, Shorts, SEO, главы, аудит). Публичного репозитория нет — запись справочная.
+Когда появится ссылка: skillpantry add <url>.
+"""
+status = "reference"
+risk = "low"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["youtube", "content"]
+
+summary_en = "/yt-script, /yt-seo, /yt-shorts, /yt-audit and more — source not published"
+description_en = """
+A set of 11 YouTube skills (script, packaging, editing, comments, content plan, virality,
+retention, Shorts, SEO, chapters, audit). There is no public repository — a reference entry.
+When a link appears: skillpantry add <url>.
+"""
+
+[source]
+license = "unknown"

@@ -1,0 +1,43 @@
+id = "mirofish"
+number = 34
+name = "MiroFish"
+category = "product"
+summary = "Движок роевого интеллекта: прогон идеи или запуска через «толпу» ИИ-агентов"
+description = """
+Приложение (не скилл): загружаете исходные материалы, описываете вопрос — получаете отчёт-прогноз
+и интерактивный «цифровой мир» агентов. Годится для мозгового штурма и поиска слепых зон.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["simulation", "forecast", "app"]
+risk_notes = [
+  "Симуляция — не данные: не основание для решений",
+  "AGPL-3.0: при изменении и сетевом использовании нужно раскрывать исходники",
+]
+
+summary_en = "A swarm-intelligence engine: run an idea or a launch past a “crowd” of AI agents"
+description_en = """
+An application (not a skill): upload source material, describe the question — get a forecast
+report and an interactive “digital world” of agents. Good for brainstorming and finding blind
+spots.
+"""
+risk_notes_en = [
+  "A simulation is not data: not a basis for decisions",
+  "AGPL-3.0: if you modify it and use it over a network, you must publish the source",
+]
+
+[source]
+repo = "666ghj/MiroFish"
+ref = "7657031ac01184afe2cb220f5ee3545573b5e843"
+license = "AGPL-3.0"
+
+[manual]
+any = [
+  "git clone https://github.com/666ghj/MiroFish и следуйте README (Docker или npm)",
+]
+
+[manual_en]
+any = ["git clone https://github.com/666ghj/MiroFish and follow the README (Docker or npm)"]

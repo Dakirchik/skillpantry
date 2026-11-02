@@ -1,0 +1,34 @@
+id = "playwright-cli"
+number = 24
+name = "Playwright CLI (Microsoft)"
+category = "design-frontend"
+summary = "Браузер для агента: открыть страницу, кликать, снимать скриншоты, писать тесты"
+description = """
+Скилл `playwright-cli` учит агента пользоваться CLI Playwright: навигация, взаимодействие,
+скриншоты, генерация тестов. Сам CLI ставится вручную через npm.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["testing", "browser", "e2e"]
+
+summary_en = "A browser for the agent: open pages, click, take screenshots, write tests"
+description_en = """
+The `playwright-cli` skill teaches the agent to use the Playwright CLI: navigation, interaction,
+screenshots, test generation. The CLI itself is installed by hand with npm.
+"""
+
+[source]
+repo = "microsoft/playwright-cli"
+ref = "c2d8d199459d1480491bebf0a6b3587136b673fa"
+license = "Apache-2.0"
+
+[[skills]]
+path = "skills/playwright-cli"
+
+[manual]
+any = [
+  "npm install -g @playwright/cli@latest",
+]

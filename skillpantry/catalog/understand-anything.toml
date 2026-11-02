@@ -1,0 +1,58 @@
+id = "understand-anything"
+number = 13
+name = "Understand-Anything"
+category = "code-understanding"
+summary = "Плагин: анализ кодовой базы, интерактивный граф знаний, экскурсии и объяснения"
+description = """
+Плагин для Claude Code (и Cursor): /understand строит граф знаний проекта, есть дашборд,
+онбординг, объяснение диффов, разбор Figma. Скиллы используют скрипты плагина
+(${CLAUDE_PLUGIN_ROOT}), поэтому ставится только как плагин — вручную.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["codebase", "knowledge-graph", "onboarding", "plugin"]
+risk_notes = [
+  "Анализ идёт через LLM вашего агента — содержимое кода передаётся модели, как при обычной работе",
+]
+overlaps = ["graphify"]
+
+summary_en = "A plugin: codebase analysis, an interactive knowledge graph, guided tours and explanations"
+description_en = """
+A plugin for Claude Code (and Cursor): /understand builds a knowledge graph of the project;
+there is a dashboard, onboarding, diff explanations and Figma analysis. The skills use the
+plugin's scripts (${CLAUDE_PLUGIN_ROOT}), so it installs only as a plugin — by hand.
+"""
+risk_notes_en = [
+  "Analysis goes through your agent's LLM — the code is sent to the model, as in normal work",
+]
+
+[source]
+repo = "Egonex-AI/Understand-Anything"
+ref = "4e6d3299017a7432da15957874992837a315c5b4"
+license = "MIT"
+
+[targets]
+claude-code = "manual"
+cursor = "manual"
+codex = "none"
+gemini = "none"
+folder = "none"
+
+[manual]
+"claude-code" = [
+  "/plugin marketplace add Egonex-AI/Understand-Anything",
+  "/plugin install understand-anything@understand-anything",
+]
+cursor = [
+  "Установите плагин из .cursor-plugin репозитория по инструкции в README",
+]
+
+[manual_en]
+"claude-code" = [
+  "/plugin marketplace add Egonex-AI/Understand-Anything",
+  "/plugin install understand-anything@understand-anything",
+]
+cursor = ["Install the plugin from the repository's .cursor-plugin following the README"]

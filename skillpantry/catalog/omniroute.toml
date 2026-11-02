@@ -1,0 +1,47 @@
+id = "omniroute"
+number = 26
+name = "OmniRoute"
+category = "tokens-models"
+summary = "Шлюз моделей между агентом и провайдерами: роутинг, кэш, переключение при исчерпании лимита"
+description = """
+Сервер-шлюз (Node.js): роутинг по провайдерам и моделям, кэш, сжатие контекста, ключи, вебхуки.
+Подключается к Claude Code как HTTP MCP и/или через base URL. Ставится вручную.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["gateway", "routing", "llm"]
+risk_notes = [
+  "Весь трафик к моделям идёт через сторонний сервер — для рабочего кода только по согласованию с ИБ",
+  "При npm install генерируется локальный .env — не коммитьте его",
+]
+
+summary_en = "A model gateway between the agent and providers: routing, caching, failover when a quota runs out"
+description_en = """
+A gateway server (Node.js): routing across providers and models, caching, context compression,
+keys, webhooks. Connects to Claude Code as an HTTP MCP and/or through a base URL. Installed by
+hand.
+"""
+risk_notes_en = [
+  "All model traffic goes through a third-party server — for work code only with your security team's approval",
+  "npm install generates a local .env — do not commit it",
+]
+
+[source]
+repo = "cheaper-inference/OmniRoute"
+ref = "075d6e5bcbe87a21355e0b2aac7bc0f5eb96101c"
+license = "MIT"
+
+[manual]
+any = [
+  "npm install -g omniroute   и запуск: omniroute",
+]
+"claude-code" = [
+  "claude mcp add-server omniroute --type http --url http://localhost:20128/api/mcp/stream",
+]
+
+[manual_en]
+any = ["npm install -g omniroute   and start it: omniroute"]
+"claude-code" = ["claude mcp add-server omniroute --type http --url http://localhost:20128/api/mcp/stream"]

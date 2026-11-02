@@ -1,0 +1,62 @@
+id = "headroom"
+number = 30
+name = "Headroom"
+category = "tokens-models"
+summary = "Локальное сжатие всего, что читает агент (вывод инструментов, логи, RAG), — меньше токенов"
+description = """
+Прокси или обёртка вокруг агента: `headroom wrap claude|codex|cursor|cline …` — ответы те же,
+токенов меньше (по данным авторов ~20%). Сжатие локальное. Версия 0.x.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["tokens", "compression", "proxy"]
+risk_notes = [
+  "Анонимный beacon телеметрии включён по умолчанию (без промптов и кода); отключить: HEADROOM_TELEMETRY=off",
+  "Прокси видит весь трафик агента — на рабочих машинах согласуйте с ИБ",
+]
+
+summary_en = "Local compression of everything the agent reads (tool output, logs, RAG) — fewer tokens"
+description_en = """
+A proxy or wrapper around the agent: `headroom wrap claude|codex|cursor|cline …` — same answers,
+fewer tokens (~20% by the authors' numbers). Compression is local. Version 0.x.
+"""
+risk_notes_en = [
+  "An anonymous telemetry beacon is on by default (no prompts or code); turn it off: HEADROOM_TELEMETRY=off",
+  "The proxy sees all agent traffic — on work machines, clear it with your security team",
+]
+
+[source]
+repo = "headroomlabs-ai/headroom"
+ref = "fc1ba891bff2d1e0cb53c4ffd4037f5066988c8e"
+license = "Apache-2.0"
+
+[manual]
+any = [
+  "pip install \"headroom-ai[all]\"",
+  "Отключить телеметрию: HEADROOM_TELEMETRY=off",
+]
+"claude-code" = [
+  "headroom wrap claude   (отмена: headroom unwrap claude)",
+]
+codex = [
+  "headroom wrap codex",
+]
+cursor = [
+  "headroom wrap cursor",
+]
+gemini = [
+  "Gemini CLI нет в списке wrap — используйте headroom proxy --port 8787",
+]
+
+[manual_en]
+any = [
+  "pip install \"headroom-ai[all]\"",
+  "Turn telemetry off: HEADROOM_TELEMETRY=off",
+]
+"claude-code" = ["headroom wrap claude   (undo: headroom unwrap claude)"]
+codex = ["headroom wrap codex"]
+cursor = ["headroom wrap cursor"]
+gemini = ["Gemini CLI is not in the wrap list — use headroom proxy --port 8787"]

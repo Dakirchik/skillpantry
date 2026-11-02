@@ -1,0 +1,39 @@
+id = "ponytail"
+number = 35
+name = "Ponytail"
+category = "dev-process"
+summary = "Режим «ленивого сеньора»: самое простое работающее решение, YAGNI, stdlib прежде всего"
+description = """
+6 скиллов: основной `ponytail` и review, audit, debt, gain, help. Плагин для Claude Code дополнительно
+ставит хуки и пишет статистику задач в ~/.config/ponytail — через skillpantry ставятся только скиллы.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["coding", "simplicity", "review"]
+overlaps = ["karpathy-skills"]
+
+summary_en = "“Lazy senior” mode: the simplest working solution, YAGNI, stdlib first"
+description_en = """
+6 skills: the main `ponytail` plus review, audit, debt, gain and help. The Claude Code plugin
+also installs hooks and writes task statistics to ~/.config/ponytail — skillpantry installs only
+the skills.
+"""
+
+[source]
+repo = "DietrichGebert/ponytail"
+ref = "96608e078b2d5ea607c5c3b8b5a54d1c1fba6846"
+license = "MIT"
+
+[[skills]]
+path = "skills/ponytail*"
+
+[manual]
+"claude-code" = [
+  "Полная версия с хуками: /plugin marketplace add DietrichGebert/ponytail, затем /plugin install ponytail@ponytail",
+]
+
+[manual_en]
+"claude-code" = ["Full version with hooks: /plugin marketplace add DietrichGebert/ponytail, then /plugin install ponytail@ponytail"]

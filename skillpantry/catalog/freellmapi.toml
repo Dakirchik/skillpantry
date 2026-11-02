@@ -1,0 +1,56 @@
+id = "freellmapi"
+number = 14
+name = "FreeLLMAPI"
+category = "tokens-models"
+summary = "Один OpenAI-совместимый /v1 поверх бесплатных тарифов 34 провайдеров"
+description = """
+Локальный роутер: агрегирует бесплатные тарифы, выбирает модель, при rate-limit переключает
+провайдера, считает расход по ключам. Подключается в любой клиент с custom base URL.
+"""
+status = "verified"
+risk = "high"
+work_safe = false
+confirm = true
+reviewed = "2026-11-02"
+tags = ["gateway", "llm", "free"]
+risk_notes = [
+  "Бесплатные провайдеры могут логировать запросы и обучаться на них — не для рабочего кода и секретов",
+  "Каталог моделей обновляется по подписанному фиду с их сервера",
+  "README предлагает curl … | bash — лучше ставить из исходников или через npx",
+]
+
+summary_en = "One OpenAI-compatible /v1 on top of the free tiers of 34 providers"
+description_en = """
+A local router: aggregates free tiers, picks a model, switches providers on rate limits, tracks
+usage per key. Plugs into any client with a custom base URL.
+"""
+risk_notes_en = [
+  "Free providers may log requests and train on them — not for work code or secrets",
+  "The model catalog updates from a signed feed on their server",
+  "The README suggests curl … | bash — better install from source or with npx",
+]
+
+[source]
+repo = "tashfeenahmed/freellmapi"
+ref = "21d287aed0aad56cf74bd001d24194916b5a4515"
+license = "MIT"
+
+[manual]
+any = [
+  "Исходники: git clone https://github.com/tashfeenahmed/freellmapi && npm install && npm run dev",
+  "Клиенты: base URL http://localhost:3001/v1 + единый ключ из дашборда",
+]
+"claude-code" = [
+  "npx freellmapi launch   (запускает Claude Code через роутер, без записи ключей в конфиг)",
+]
+codex = [
+  "npx freellmapi launch-codex",
+]
+
+[manual_en]
+any = [
+  "From source: git clone https://github.com/tashfeenahmed/freellmapi && npm install && npm run dev",
+  "Clients: base URL http://localhost:3001/v1 + the single key from the dashboard",
+]
+"claude-code" = ["npx freellmapi launch   (starts Claude Code through the router without writing keys to the config)"]
+codex = ["npx freellmapi launch-codex"]

@@ -1,0 +1,39 @@
+id = "task-observer"
+number = 40
+name = "Task Observer"
+category = "meta"
+summary = "Наблюдает за работой и предлагает улучшения скиллов и новые скиллы — с вашим одобрением"
+description = """
+Мета-скилл: во время задач пишет лог наблюдений (ваши правки, повторяющаяся ручная работа, свои
+слепые зоны), раз в неделю превращает их в предложения по скиллам. Лицензия CC-BY-4.0.
+Скрипты на bash — в Windows нужен Git Bash или WSL.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["meta", "skills", "self-improvement"]
+risk_notes = [
+  "Лог наблюдений содержит фрагменты вашей работы — храните локально, не коммитьте",
+]
+
+summary_en = "Watches your work and suggests skill improvements and new skills — with your approval"
+description_en = """
+A meta-skill: during tasks it keeps a log of observations (your corrections, repeated manual
+work, its own blind spots) and once a week turns them into skill proposals. License CC-BY-4.0.
+The scripts are bash — on Windows you need Git Bash or WSL.
+"""
+risk_notes_en = [
+  "The observation log contains fragments of your work — keep it local, do not commit it",
+]
+
+[source]
+repo = "rebelytics/one-skill-to-rule-them-all"
+ref = "ba696b2c2673be959dcd4a1dbdbc92085df8b41a"
+license = "CC-BY-4.0"
+
+[[skills]]
+path = "."
+name = "task-observer"
+exclude = ["CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "SECURITY.md", "SUPPORT.md", "README.md", ".claude-plugin"]

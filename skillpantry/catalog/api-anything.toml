@@ -1,0 +1,46 @@
+id = "api-anything"
+number = 18
+name = "API Anything"
+category = "web-data"
+summary = "Научить агента сайту один раз — дальше он вызывает его как API, без браузера"
+description = """
+Наблюдает, как страница сайта делает запросы, выделяет входные параметры и сохраняет операцию.
+Агент вызывает её через MCP с новыми входами и получает JSON. Ставятся скилл и MCP-сервер
+(npx -y api-anything mcp). Есть общий каталог операций, выученных другими агентами.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["web", "scraping", "mcp"]
+risk_notes = [
+  "Сверяйтесь с ToS сайтов; внутренние API сайтов меняются без предупреждения",
+  "Не сохраняйте в операциях токены и cookies открытым текстом",
+  "Общий каталог операций — это чужие данные: проверяйте, что вызываете",
+]
+
+summary_en = "Teach the agent a website once — then it calls it like an API, without a browser"
+description_en = """
+Watches the requests a web page makes, extracts the input parameters and saves the operation.
+The agent calls it over MCP with new inputs and gets JSON back. Installs a skill and an MCP
+server (npx -y api-anything mcp). There is a shared catalog of operations learned by other
+agents.
+"""
+risk_notes_en = [
+  "Check the sites' ToS; internal site APIs change without notice",
+  "Do not store tokens or cookies in operations as plain text",
+  "The shared catalog of operations is other people's data: check what you call",
+]
+
+[source]
+repo = "goodnight000/api-anything"
+ref = "e22c3dab9410ca2b24f0dde5731c7834a546581d"
+license = "MIT"
+
+[[skills]]
+path = "skills/api-anything"
+
+[mcp.api-anything]
+command = "npx"
+args = ["-y", "api-anything", "mcp"]

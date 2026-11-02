@@ -1,0 +1,40 @@
+id = "open-seo"
+number = 37
+name = "OpenSEO"
+category = "content"
+summary = "Открытая альтернатива Semrush/Ahrefs: ключевые слова, конкуренты, ссылки, аудит"
+description = """
+12 SEO-скиллов (исследование ключевых слов, кластеризация, конкуренты, локальное SEO, аудит,
+отчёты, AI-visibility) и MCP-сервер OpenSEO. Данные идут из облака app.openseo.so — платная
+подписка (~$10/мес); код приложения открыт, можно поднять у себя.
+"""
+status = "verified"
+risk = "medium"
+work_safe = false
+confirm = false
+reviewed = "2026-11-02"
+tags = ["seo", "mcp", "marketing"]
+risk_notes = [
+  "Часть операций — платные SERP-запросы; скиллы предупреждают о стоимости, но следите сами",
+]
+
+summary_en = "An open alternative to Semrush/Ahrefs: keywords, competitors, backlinks, audits"
+description_en = """
+12 SEO skills (keyword research, clustering, competitors, local SEO, audits, reports, AI
+visibility) and the OpenSEO MCP server. Data comes from the app.openseo.so cloud — a paid
+subscription (~$10/month); the app's code is open and can be self-hosted.
+"""
+risk_notes_en = [
+  "Some operations are paid SERP requests; the skills warn about the cost, but keep an eye on it yourself",
+]
+
+[source]
+repo = "every-app/open-seo"
+ref = "1523750b76857324573a086b1d93bd3c3612b5b1"
+license = "MIT"
+
+[[skills]]
+path = "plugins/openseo/skills/*"
+
+[mcp.openseo]
+url = "https://app.openseo.so/mcp"

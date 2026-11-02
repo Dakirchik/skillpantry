@@ -1,0 +1,38 @@
+id = "awesome-design-md"
+number = 22
+name = "Awesome DESIGN.md"
+category = "design-frontend"
+summary = "84 готовых DESIGN.md с разбором дизайн-языков — один кладётся в проект как ориентир"
+description = """
+Коллекция разборов дизайн-языков известных продуктов: токены, паттерны, поверхности.
+Ставится один выбранный файл как DESIGN.md в корень проекта: --variant stripe (список вариантов
+покажет установка без --variant). Лучше всего — как образец для собственного DESIGN.md.
+"""
+status = "verified"
+risk = "low"
+work_safe = true
+confirm = false
+reviewed = "2026-11-02"
+tags = ["design", "design-system", "reference"]
+risk_notes = [
+  "Это разборы чужих брендов: для своего продукта используйте как образец структуры, а не копию стиля",
+]
+
+summary_en = "84 ready DESIGN.md breakdowns of design languages — one goes into the project as a reference"
+description_en = """
+A collection of design-language breakdowns of well-known products: tokens, patterns, surfaces.
+One chosen file is installed as DESIGN.md in the project root: --variant stripe (installing
+without --variant lists the options). Best used as a template for your own DESIGN.md.
+"""
+risk_notes_en = [
+  "These are breakdowns of other companies' brands: for your product use them as a structure template, not a style to copy",
+]
+
+[source]
+repo = "VoltAgent/awesome-design-md"
+ref = "fcc70284932276d085f01ef9f83edde90b1258cb"
+license = "MIT"
+
+[variants]
+glob = "design-md/*/DESIGN.md"
+dest = "DESIGN.md"
