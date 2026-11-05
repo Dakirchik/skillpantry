@@ -143,7 +143,8 @@ def test_missing_local_folder_is_reported(own):
 def test_form_in_the_full_screen_ui(own, monkeypatch):
     from skillpantry.app import run
     cat = Catalog()
-    keys = (["down", "down", "down", "enter",                # home → Добавить своё
+    # Find the action by its label so inserting home menu items cannot redirect this flow.
+    keys = (["/"] + list("Добавить своё") + ["enter", "enter",  # filter, then open Добавить своё
              "enter"] + list(str(own["skill"])) + ["enter"]  # source: folder, path
             + ["backspace"] * 9 + list("Ревью Go")            # name; id follows it
             + ["down", "down", "enter", "end", "enter"]      # category → + Новая категория
