@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import os
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch as mock_patch
@@ -109,6 +110,74 @@ def case_rollback_on_copy_failure(tmp_path, monkeypatch):
 
 
 class SyncTests(unittest.TestCase):
+    def directory_link(self, link, target):
+        try:
+            link.symlink_to(target, target_is_directory=True)
+        except OSError as error:
+            # Windows junctions reproduce linked ancestors without Developer Mode.
+            if os.name != "nt" or not hasattr(Path, "is_junction"):
+                self.skipTest(f"Directory links unavailable: {error}")
+            result = subprocess.run(["cmd", "/c", "mklink", "/J", str(link), str(target)],
+                                    capture_output=True)
+            if result.returncode:
+                self.skipTest("Directory junctions unavailable")
+
+    def test_sync_through_linked_project_ancestor(self):
+        with tempfile.TemporaryDirectory() as folder, mock_patch.dict(os.environ):
+            root = Path(folder).resolve()
+            os.environ["SKILLPANTRY_HOME"] = str(root / "data")
+            real = root / "real"
+            real.mkdir()
+            alias = root / "alias"
+            self.directory_link(alias, real)
+            source = Layout("claude-code", "project", alias / "src")
+            original = skill(source.skills_dir(""))
+            for agent in AGENTS:
+                with self.subTest(agent=agent):
+                    destination = Layout(agent, "project", alias / agent)
+                    plan = plan_sync(source, destination)
+                    self.assertEqual(plan[0].destination, destination.skills_dir("").resolve() / "demo")
+                    apply_sync(plan)
+                    copied = destination.skills_dir("") / "demo" / "SKILL.md"
+                    self.assertEqual(copied.read_bytes(), (original / "SKILL.md").read_bytes())
+                    self.assertEqual(plan_sync(source, destination)[0].status, "unchanged")
+
+    def test_links_inside_destination_are_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder).resolve()
+            source = Layout("claude-code", "project", root / "src")
+            skill(source.skills_dir(""))
+            external = root / "external"
+            external.mkdir()
+            sentinel = external / "keep.txt"
+            sentinel.write_bytes(b"keep")
+            for part in (".agents", ".agents/skills", ".agents/skills/demo"):
+                with self.subTest(part=part):
+                    destination = Layout("codex", "project", root / f"dst-{len(part)}")
+                    link = destination.root / part
+                    link.parent.mkdir(parents=True)
+                    self.directory_link(link, external)
+                    with self.assertRaises(InstallError):
+                        plan_sync(source, destination)
+                    self.assertEqual(list(external.iterdir()), [sentinel])
+                    self.assertEqual(sentinel.read_bytes(), b"keep")
+
+    def test_destination_link_added_after_plan_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder, mock_patch.dict(os.environ):
+            root = Path(folder).resolve()
+            os.environ["SKILLPANTRY_HOME"] = str(root / "data")
+            source = Layout("claude-code", "project", root / "src")
+            destination = Layout("codex", "project", root / "dst")
+            skill(source.skills_dir(""))
+            plan = plan_sync(source, destination)
+            external = root / "external"
+            external.mkdir()
+            destination.root.mkdir()
+            self.directory_link(destination.root / ".agents", external)
+            with self.assertRaises(InstallError):
+                apply_sync(plan, force=True)
+            self.assertEqual(list(external.iterdir()), [])
+
     def test_wizard_claude_to_codex_in_same_project(self):
         from skillpantry.interactive import sync_flow
         from io import StringIO

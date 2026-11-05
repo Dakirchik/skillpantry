@@ -54,12 +54,16 @@ class Transfer:
 def plan_sync(source: Layout, destination: Layout, only: list[str] | None = None) -> list[Transfer]:
     if source.target not in AGENTS or destination.target not in AGENTS:
         raise InstallError(T("Choose an agent, not folder", "Выберите агента, а не folder"))
-    src = source.skills_dir("")
-    dst = destination.skills_dir("")
+    # Resolve the chosen roots before adding agent paths: macOS /var and /tmp
+    # are system aliases. Links inside the agent directories remain forbidden.
+    source_root = source.root.resolve()
+    destination_root = destination.root.resolve()
+    src = Layout(source.target, source.scope, source_root).skills_dir("")
+    dst = Layout(destination.target, destination.scope, destination_root).skills_dir("")
     roots = [src]
     # Codex skills can also live in its older, agent-specific directory.
     if source.target == "codex":
-        roots.append(source.root / ".codex" / "skills")
+        roots.append(source_root / ".codex" / "skills")
     found = {}
     for root in roots:
         if not root.is_dir():
