@@ -6,6 +6,7 @@ on:
 
 jobs:
   tests:
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -18,10 +19,10 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install pytest
-      - run: python -m pytest -q
+      - run: python -m pytest -v --durations=10 -o faulthandler_timeout=30
       - name: tests with a non-UTF-8 default encoding (catches what cp1252 on Windows would)
         if: runner.os == 'Linux'
-        run: LC_ALL=C LANG=C PYTHONUTF8=0 PYTHONIOENCODING=utf-8 python -m pytest -q -p no:cacheprovider
+        run: LC_ALL=C LANG=C PYTHONUTF8=0 PYTHONIOENCODING=utf-8 python -m pytest -v --durations=10 -o faulthandler_timeout=30 -p no:cacheprovider
       - run: python -m skillpantry validate
 
   windows-installer:

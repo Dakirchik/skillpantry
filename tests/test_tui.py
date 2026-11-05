@@ -20,10 +20,64 @@ ITEMS = [Item("#g", "Group", header=True), Item("a", "Alpha"), Item("b", "Beta")
          Item("c", "Gamma", disabled="nope"), Item("d", "Delta")]
 
 
+@pytest.mark.parametrize("conflict,apply", [(False, True), (True, True), (True, False)])
+def test_sync_wizard_stays_in_ui(tmp_path, monkeypatch, conflict, apply):
+    from skillpantry.app import SyncWizard
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("SKILLPANTRY_HOME", str(tmp_path / "data"))
+    source = tmp_path / ".claude" / "skills" / "demo"
+    source.mkdir(parents=True)
+    (source / "SKILL.md").write_text("---\nname: demo\n---\nNew content\n", encoding="utf-8")
+    (source / "helper.py").write_text("print('ok')", encoding="utf-8")
+    destination = tmp_path / ".agents" / "skills" / "demo"
+    if conflict:
+        destination.mkdir(parents=True)
+        (destination / "SKILL.md").write_text("Old content", encoding="utf-8")
+
+    def no_prompt(*args, **kwargs):
+        pytest.fail("Full-screen sync must not use terminal prompts or suspend the UI")
+
+    monkeypatch.setattr("builtins.input", no_prompt)
+    monkeypatch.setattr(Term, "suspend", no_prompt)
+    # Default agents, current source project, same destination project, select demo.
+    keys = ["enter"] * 5
+    keys += ["down", "enter", "enter"] if apply else ["esc"] * 6
+    t = term(keys)
+    SyncWizard(t).run()
+    output = strip_ansi(t.out.getvalue())
+    assert "demo" in output
+    if apply:
+        assert (destination / "SKILL.md").read_bytes() == (source / "SKILL.md").read_bytes()
+        assert (destination / "helper.py").is_file()
+        assert "Скиллы синхронизированы" in output
+        if conflict:
+            backups = list((tmp_path / "data" / "backups").glob("sync-*/original-0-demo/SKILL.md"))
+            assert len(backups) == 1
+            assert backups[0].read_text(encoding="utf-8") == "Old content"
+    else:
+        assert (destination / "SKILL.md").read_text(encoding="utf-8") == "Old content"
+        assert not (tmp_path / "data").exists()
+
+
 def test_width_and_fit():
     assert width("Дакир") == 5 and width("日本") == 4
     assert fit("Привет мир", 6) == "Приве…"
     assert width(fit("abc", 5)) == 5
+
+
+def test_home_opens_catalog_by_label(env, monkeypatch):
+    from skillpantry.app import run
+    from skillpantry.catalog import Catalog
+
+    def no_prompt(*args, **kwargs):
+        pytest.fail("Catalog navigation must not enter a terminal prompt")
+
+    monkeypatch.setattr("builtins.input", no_prompt)
+    t = term(["/", *"Каталог", "enter", "enter", "down", "q"])
+    assert run(Catalog(), t) == 0
+    frames = [strip_ansi(frame) for frame in t.out.getvalue().split("\x1b[H")]
+    assert any("Каталог" in frame and "Kit" in frame for frame in frames)
 
 
 def test_checkboxes_skip_headers_and_disabled():

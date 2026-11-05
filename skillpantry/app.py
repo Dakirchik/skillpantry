@@ -988,6 +988,128 @@ def drop_screen(t: Term, cat: Catalog, e: Entry) -> bool:
     return True
 
 
+class SyncWizard:
+    """Keep planning, confirmation and results inside the full-screen interface."""
+
+    def __init__(self, term: Term):
+        self.t = term
+        self.source_agent = "claude-code"
+        self.target_agent = "codex"
+        self.source = None
+        self.destination = None
+        self.chosen: list[str] = []
+
+    def location(self, agent: str, source: bool):
+        title = T("Source location", "Откуда читать скиллы") if source else T("Destination location", "Куда записать скиллы")
+        items = []
+        if not source and self.source.scope == "project":
+            items.append(Item("same", T("Same project", "Тот же проект")))
+        items += [Item("current", T("Current project", "Текущий проект")),
+                  Item("other", T("Another project", "Другой проект")),
+                  Item("global", T("Global skills", "Глобальные скиллы"))]
+        while True:
+            def layout(key):
+                return make_layout(agent, global_=key == "global",
+                                   path=str(self.source.root) if key == "same" else None)
+
+            res = select(self.t, items, title=f"{title} — {TARGET_LABELS[agent]}",
+                         crumbs=T("Sync › location", "Синхронизация › расположение"),
+                         details=lambda it: [(T("Enter a project root, not the skills subfolder.",
+                                                "Укажите корень проекта, а не подпапку skills."), DIM)]
+                         if it.key == "other" else [(str(layout(it.key).skills_dir("")), "")])
+            if res.back:
+                return None
+            key = res.keys[0]
+            if key != "other":
+                return layout(key)
+            path = ask_text(self.t, T("Project root", "Корень проекта"), title=title)
+            if not path:
+                continue
+            p = Path(path.strip().strip('"').strip("'")).expanduser()
+            if p.is_dir():
+                return make_layout(agent, path=str(p))
+            message(self.t, [(T(f"No such folder: {p}", f"Нет такой папки: {p}"), RED)], title=title)
+
+    def run(self) -> None:
+        from skillpantry.sync import AGENTS, apply_sync, plan_sync
+
+        step = 0
+        while step >= 0:
+            try:
+                if step in (0, 1):
+                    source = step == 0
+                    res = select(self.t, [Item(a, TARGET_LABELS[a]) for a in AGENTS],
+                                 title=T("Source agent", "Из какого ИИ перенести скиллы") if source else
+                                       T("Destination agent", "В какой ИИ перенести скиллы"),
+                                 crumbs=T("Sync › agents", "Синхронизация › агенты"),
+                                 start=self.source_agent if source else self.target_agent)
+                    if not res.back:
+                        if source:
+                            self.source_agent = res.keys[0]
+                        else:
+                            self.target_agent = res.keys[0]
+                    step += -1 if res.back else 1
+                elif step in (2, 3):
+                    source = step == 2
+                    result = self.location(self.source_agent if source else self.target_agent, source)
+                    if result is not None:
+                        if source:
+                            self.source = result
+                        else:
+                            self.destination = result
+                    step += -1 if result is None else 1
+                elif step == 4:
+                    plan = plan_sync(self.source, self.destination)
+                    labels = {"new": T("new", "новый"), "unchanged": T("unchanged", "без изменений"),
+                              "conflict": T("conflict", "конфликт")}
+
+                    def details(it):
+                        x = next(x for x in plan if x.name == it.key)
+                        return [(str(x.source), DIM), ("→ " + str(x.destination), ""),
+                                (labels[x.status], YELLOW if x.status == "conflict" else GREEN)] + [
+                                    (warning, YELLOW) for warning in x.warnings]
+
+                    res = select(self.t, [Item(x.name, x.name, labels[x.status],
+                                              YELLOW if x.status == "conflict" else "") for x in plan],
+                                 title=T("Choose skills", "Выберите скиллы"),
+                                 crumbs=T("Sync › skills", "Синхронизация › скиллы"),
+                                 multi=True, selected=self.chosen, details=details)
+                    if not res.back:
+                        self.chosen = res.keys
+                        selected = [x for x in plan if x.name in self.chosen]
+                    step += -1 if res.back else 1
+                else:
+                    conflicts = [x for x in selected if x.status == "conflict"]
+                    lines = [(f"{self.source.label} → {self.destination.label}", BOLD), ("", "")]
+                    for x in selected:
+                        lines += [(f"{x.name}: {labels[x.status]} → {x.destination}",
+                                   YELLOW if x.status == "conflict" else "")]
+                        lines += [(warning, YELLOW) for warning in x.warnings]
+                    lines += [("", ""), (T("Full skill folders are copied unchanged. Rules, MCP and hooks are not synchronized.",
+                                             "Папки скиллов копируются целиком. Правила, MCP и хуки не синхронизируются."), DIM)]
+                    if all(x.status == "unchanged" for x in selected):
+                        message(self.t, lines, title=T("Already synchronized", "Уже синхронизировано"))
+                        return
+                    apply_label = T("Replace conflicts with backups and sync", "Заменить конфликты с резервной копией и перенести") if conflicts else T("Apply sync", "Применить синхронизацию")
+                    res = select(self.t, [Item("back", T("Back to skills", "Назад к скиллам")),
+                                          Item("apply", apply_label, "", YELLOW if conflicts else GREEN)],
+                                 title=T("Review sync plan", "Проверьте план синхронизации"),
+                                 crumbs=T("Sync › plan", "Синхронизация › план"), details=lambda it: lines)
+                    if res.back or res.keys[0] == "back":
+                        step = 4
+                        continue
+                    backups = apply_sync(selected, force=bool(conflicts))
+                    result = [(T("Skills synchronized.", "Скиллы синхронизированы."), GREEN)]
+                    if backups:
+                        result.append((T("Backups: ", "Резервные копии: ") + str(backups), DIM))
+                    message(self.t, result, title=T("Sync complete", "Синхронизация завершена"))
+                    return
+            except (OSError, ValueError, InstallError) as ex:
+                message(self.t, [(str(ex), RED)], title=T("Sync error", "Ошибка синхронизации"))
+                # A failed or stale plan must be rebuilt before it can be applied.
+                step = 3
+
+
 # ---- home ----------------------------------------------------------------------------------------
 
 def run(cat: Catalog, term: Term | None = None) -> int:
@@ -1085,13 +1207,7 @@ def home(t: Term, cat: Catalog) -> None:
         if last == "install":
             Wizard(t, cat).run()
         elif last == "sync":
-            from skillpantry.interactive import sync_flow
-            with t.suspend():
-                try:
-                    sync_flow(cat)
-                except (OSError, ValueError, InstallError) as ex:
-                    print(ui.red(str(ex)))
-                ui.ask(T("\nEnter — back", "\nEnter — назад"))
+            SyncWizard(t).run()
         elif last == "browse":
             ids = browse_screen(t, cat)
             if ids:
