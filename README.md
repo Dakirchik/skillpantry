@@ -122,6 +122,34 @@ are never run for you — skillpantry prints the exact manual steps instead.
 The audit is pattern matching that points a reviewer at lines worth reading — not a guarantee.
 Found something unsafe in the catalog? See [SECURITY.md](SECURITY.md).
 
+## Sync skills between agents
+
+Choose **Sync skills between agents** in either menu (the full-screen menu opens a text wizard),
+or run:
+
+```sh
+skillpantry sync --from claude-code --from-global -t codex -g --dry-run
+skillpantry sync --from claude-code --from-global -t codex -g -y
+skillpantry sync --from cursor --from-path ./source -t gemini -p ./destination --skill my-skill --force -y
+```
+
+This is an explicit one-way sync of installed skill folders, including skills not installed by
+skillpantry. New skills are copied, identical folders skipped, and different folders blocked unless
+`--force` is supplied. Replacements back up the entire previous folder under
+`~/.skillpantry/backups/sync-*/`; copy failures roll back the current operation. Destination-only
+skills remain untouched. Repeat `--skill` to select multiple skills.
+
+The full SKILL.md folder travels with scripts, references, assets and templates. Contents and
+relative paths remain unchanged; service directories such as `.git` and `node_modules` are excluded.
+The destination folder uses a valid SKILL.md `name`, falling back to the source folder name.
+Codex sources include `.agents/skills` and `.codex/skills`; the destination is `.agents/skills`.
+Duplicate names are blocked. Source folder links are supported; nested links require manual review.
+Destination links are blocked.
+
+Agent-specific references produce warnings, without rewriting documents. External dependencies,
+rules, MCP, settings and hooks must be handled separately. Sync does not create catalog or install
+records; subsequent runs compare the actual folders. There is no background watcher.
+
 ## Your own entries
 
 Home → **Add your own**: point at a folder or file on your computer (your own skill, a rules file, a

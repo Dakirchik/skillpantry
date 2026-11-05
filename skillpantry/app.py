@@ -1031,6 +1031,7 @@ def home(t: Term, cat: Catalog) -> None:
         n_ok = sum(1 for e in cat.entries.values() if e.installable)
         items = [
             Item("install", T("Install or update", "Установить или обновить"), T(f"{n_ok} entries", f"{n_ok} записей")),
+            Item("sync", T("Sync skills between agents", "Синхронизация скиллов между агентами")),
             Item("browse", T("Catalog", "Каталог"), f"{len(cat.entries)}"),
             Item("installed", T("Installed", "Установленное"), f"{len(recs)}" + (f" · ↑{stale}" if stale else ""),
                  YELLOW if stale else ""),
@@ -1048,6 +1049,8 @@ def home(t: Term, cat: Catalog) -> None:
                         (T("5. Options — risk confirmation, optional skills, a file to pick", "5. Параметры — подтверждение рисков, дополнительные скиллы, файл на выбор"), ""),
                         (T("6. Plan — I show the changes and the audit, then ask", "6. План — покажу изменения и аудит, спрошу подтверждение"), ""), ("", ""),
                         (T("Entries already installed are reinstalled from the catalog version.", "Уже установленные записи переустанавливаются с версии из каталога."), DIM)],
+            "sync": [(T("Copy complete skill folders between agents. Choose source, destination and skills; review conflicts before applying.",
+                         "Перенос полных папок скиллов между агентами. Выберите источник, назначение и скиллы; проверьте конфликты перед применением."), "")],
             "browse": [(T("The whole catalog by category", "Весь каталог по категориям"), BOLD), ("", ""),
                        (T("Description, risks, source and targets for every entry. " "You can install an entry right from here.", "Описание, риски, источник и куда ставится — у каждой записи. "
                         "Отсюда же можно сразу поставить запись."), "")],
@@ -1081,6 +1084,14 @@ def home(t: Term, cat: Catalog) -> None:
         last = res.keys[0]
         if last == "install":
             Wizard(t, cat).run()
+        elif last == "sync":
+            from skillpantry.interactive import sync_flow
+            with t.suspend():
+                try:
+                    sync_flow(cat)
+                except (OSError, ValueError, InstallError) as ex:
+                    print(ui.red(str(ex)))
+                ui.ask(T("\nEnter — back", "\nEnter — назад"))
         elif last == "browse":
             ids = browse_screen(t, cat)
             if ids:

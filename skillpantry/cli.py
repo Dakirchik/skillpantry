@@ -668,6 +668,22 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--refresh", action="store_true", help=T("fetch the source again", "перекачать источник"))
     s.set_defaults(func=cmd_install)
 
+    s = sub.add_parser("sync", help=T("copy installed skill folders between agents", "синхронизировать папки скиллов между агентами"))
+    from skillpantry.sync import AGENTS
+    s.add_argument("--from", dest="source", required=True, choices=AGENTS)
+    source_scope = s.add_mutually_exclusive_group()
+    source_scope.add_argument("--from-path", dest="source_path", help=T("source project root", "корень исходного проекта"))
+    source_scope.add_argument("--from-global", dest="source_global", action="store_true")
+    s.add_argument("-t", "--target", required=True, choices=AGENTS)
+    destination_scope = s.add_mutually_exclusive_group()
+    destination_scope.add_argument("-p", "--path", help=T("destination project root", "корень проекта назначения"))
+    destination_scope.add_argument("-g", "--global", dest="global_", action="store_true")
+    s.add_argument("--skill", action="append", help=T("skill name; repeat to select several", "имя скилла; можно указать несколько раз"))
+    s.add_argument("-n", "--dry-run", action="store_true")
+    s.add_argument("-y", "--yes", action="store_true")
+    s.add_argument("--force", action="store_true", help=T("replace conflicts with backups", "заменить конфликтующие скиллы с резервной копией"))
+    s.set_defaults(func=cmd_sync)
+
     s = sub.add_parser("uninstall", help=T("remove what skillpantry installed", "удалить то, что поставил skillpantry"))
     s.add_argument("ids", nargs="+")
     where(s)
@@ -755,6 +771,42 @@ def tui_available(args) -> bool:
         return False
     from skillpantry.tui import supported
     return supported()
+
+
+def cmd_sync(cat, args) -> int:
+    from skillpantry.sync import plan_sync, apply_sync
+    source = make_layout(args.source, args.source_global, args.source_path)
+    destination = make_layout(args.target, args.global_, args.path)
+    try:
+        plan = plan_sync(source, destination, args.skill)
+        print(f"{source.label} → {destination.label}")
+        labels = {"new": T("new", "новый"), "unchanged": T("unchanged", "без изменений"),
+                  "conflict": T("conflict", "конфликт")}
+        for x in plan:
+            print(f"  {x.name}: {labels[x.status]} → {x.destination}")
+            for warning in x.warnings:
+                print(ui.yellow("    ! " + warning))
+        print(T("Full skill folders are copied unchanged. Rules, MCP and hooks are not synchronized.",
+                "Папки скиллов копируются целиком без изменения содержимого. Правила, MCP и хуки не синхронизируются."))
+        if args.dry_run:
+            return 0
+        if any(x.status == "conflict" for x in plan) and not args.force:
+            raise InstallError(T("Conflicts: inspect the plan, then use --force to replace with backups.",
+                                 "Конфликты: проверьте план; --force разрешает замену с резервной копией."))
+        if all(x.status == "unchanged" for x in plan):
+            return 0
+        if not args.yes:
+            if not (sys.stdin.isatty() or getattr(args, "interactive", False)):
+                raise InstallError(T("Confirmation required: add -y", "Нужно подтверждение: добавьте -y"))
+            if not ui.confirm(T("Apply sync?", "Применить синхронизацию?"), False):
+                return 1
+        backups = apply_sync(plan, args.force)
+        print(ui.green(T("Skills synchronized.", "Скиллы синхронизированы.")))
+        if backups:
+            print(T("Backups: ", "Резервные копии: ") + str(backups))
+        return 0
+    except OSError as ex:
+        raise InstallError(str(ex)) from ex
 
 
 def main(argv: list[str] | None = None) -> int:

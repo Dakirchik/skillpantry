@@ -157,6 +157,77 @@ def _add_flow(cat: Catalog) -> None:
     print(ui.green(f"  ✓ {cat.get(f.id).name}") + ui.dim(f"  {path}"))
 
 
+def _sync_location(target: str, *, source: bool, same_project: Path | None = None):
+    label = TARGET_LABELS[target]
+    prompt = (T(f"Source location — {label}", f"Откуда читать скиллы — {label}") if source else
+              T(f"Destination location — {label}", f"Куда записать скиллы — {label}"))
+    print(ui.bold("\n" + prompt))
+    options = []
+    if same_project is not None:
+        options.append(("same", T(f"Same project: {same_project}", f"В тот же проект: {same_project}")))
+    options += [
+        ("other", T("Choose a project folder (enter path)", "Указать папку проекта")),
+        ("current", T(f"Current folder: {Path.cwd()}", f"Текущая папка: {Path.cwd()}")),
+        ("global", T("Global skills (home folder)", "Глобальные скиллы (домашняя папка)")),
+        ("back", T("Back to menu", "Назад в меню")),
+    ]
+    choice = ui.choose(prompt, options, "same" if same_project is not None else "other")
+    if choice == "back":
+        return None
+    if choice == "same":
+        layout = make_layout(target, path=str(same_project))
+    elif choice == "global":
+        layout = make_layout(target, global_=True)
+    elif choice == "current":
+        layout = make_layout(target)
+    else:
+        text = ui.ask(T("Project root (not the skills subfolder; empty — back)",
+                        "Корень проекта (не подпапка skills; пусто — назад)"))
+        if not text.strip():
+            return None
+        path = Path(text.strip().strip('"').strip("'")).expanduser()
+        if not path.is_dir():
+            print(ui.red(T("No such project folder", "Такой папки проекта нет")))
+            return None
+        layout = make_layout(target, path=str(path))
+    print(ui.dim(T("Skills folder: ", "Папка скиллов: ") + str(layout.skills_dir(""))))
+    return layout
+
+
+def sync_flow(cat: Catalog) -> None:
+    from skillpantry.sync import AGENTS, plan_sync
+    from skillpantry.cli import cmd_sync
+    agents = [(a, TARGET_LABELS[a]) for a in AGENTS]
+    source = ui.choose(T("Source agent", "Из какого ИИ перенести скиллы"), agents, "claude-code")
+    target = ui.choose(T("Destination agent", "В какой ИИ перенести скиллы"), agents, "codex")
+    print(ui.bold(f"\n{TARGET_LABELS[source]} → {TARGET_LABELS[target]}"))
+    source_layout = _sync_location(source, source=True)
+    if source_layout is None:
+        return
+    destination = _sync_location(target, source=False,
+                                 same_project=source_layout.root if source_layout.scope == "project" else None)
+    if destination is None:
+        return
+    plan = plan_sync(source_layout, destination)
+    for i, x in enumerate(plan, 1):
+        print(f"  {i}. {x.name} [{x.status}]")
+        for warning in x.warnings:
+            print(ui.yellow("    ! " + warning))
+    answer = ui.ask(T("Skill numbers (empty — all)", "Номера скиллов (пусто — все)"))
+    chosen = [plan[i - 1].name for i in ui.parse_selection(answer, len(plan))] if answer else None
+    if answer and not chosen:
+        return
+    conflicts = [x for x in plan if x.status == "conflict" and (chosen is None or x.name in chosen)]
+    force = bool(conflicts) and ui.confirm(T("Replace conflicting folders with backups?", "Заменить конфликтующие папки с резервной копией?"), False)
+    if conflicts and not force:
+        return
+    cmd_sync(cat, Namespace(source=source, source_global=source_layout.scope == "global",
+                           source_path=str(source_layout.root) if source_layout.scope != "global" else None,
+                           target=target, global_=destination.scope == "global",
+                           path=str(destination.root) if destination.scope != "global" else None,
+                           skill=chosen, force=force, dry_run=False, yes=False, interactive=True))
+
+
 def run(cat: Catalog) -> int:
     print(ui.bold("skillpantry") + ui.dim(T(f" · {len(cat.entries)} entries · catalog {cat.dir}", f" · {len(cat.entries)} записей · каталог {cat.dir}")))
     if cat.errors:
@@ -165,6 +236,7 @@ def run(cat: Catalog) -> int:
         print()
         action = ui.choose(T("Action", "Действие"), [
             ("install", T("Install skills / plugins / rules", "Поставить скиллы / плагины / правила")),
+            ("sync", T("Sync skills between agents", "Синхронизация скиллов между агентами")),
             ("browse", T("Browse the catalog", "Посмотреть каталог")),
             ("status", T("Installed (and removal)", "Установленное (и удаление)")),
             ("add", T("Add your own (folder or GitHub)", "Добавить своё (папка или GitHub)")),
@@ -172,6 +244,8 @@ def run(cat: Catalog) -> int:
         try:
             if action == "install":
                 _install_flow(cat)
+            elif action == "sync":
+                sync_flow(cat)
             elif action == "browse":
                 print_legend(None)
                 for e in cat.sorted():
